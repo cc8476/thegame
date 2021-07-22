@@ -56,7 +56,7 @@ public class eventManager
             {
 
                 //增加角色
-                if (e.type ==1)
+                if (e.type == eventStructureType.Role)
                 {
                     RoleStruct r = new RoleStruct();
                     r.getFromRow(e.roleIdSending);
@@ -71,7 +71,7 @@ public class eventManager
 
                 }
                 //增加金币
-                else if (e.type ==2)
+                else if (e.type ==eventStructureType.Coin)
                 {
                     GameManager.Instance.addCoin(e.coinSending);
 
@@ -81,7 +81,7 @@ public class eventManager
                 }
 
                 //增加道具
-                else if (e.type ==3)
+                else if (e.type ==eventStructureType.Item)
                 {
                     itemStructure r = itemManager.GetItemByOrder(e.roleIdSending);
                     GameManager.Instance.addItem(r);
@@ -91,7 +91,7 @@ public class eventManager
                     return;
                 }
 
-                else if (e.type ==0)
+                else if (e.type ==eventStructureType.MissionTips)
                 {
                     list.Remove(e);
                     showEventPane(e);

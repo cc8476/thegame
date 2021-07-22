@@ -13,7 +13,7 @@ public struct eventStructure
     public int itemSending;//赠送的物品id
     public int miracleSending;//赠送的神器id
 
-    public int type;//0=任务提示;1=英雄；2=金币 3=道具
+    public eventStructureType type;//0=任务提示;1=英雄；2=金币 3=道具
 
 
 
@@ -49,7 +49,7 @@ public struct eventStructure
        this.pic = pic;
        this.des = des;
 
-       this.type = 1;
+       this.type = eventStructureType.Role;
    }
     public void addItem(
        string name="道具名",
@@ -64,7 +64,7 @@ public struct eventStructure
        this.pic = pic;
        this.des = des;
 
-       this.type = 3;
+       this.type = eventStructureType.Item;
    }
    
 
@@ -81,7 +81,7 @@ public struct eventStructure
        this.pic = pic;
        this.des = des;
 
-       this.type = 2;
+       this.type = eventStructureType.Coin;
    }
 
    public void addGuide(
@@ -94,9 +94,20 @@ public struct eventStructure
        this.wave = wave;
        this.des = des;
 
-       this.type = 0;
+       this.type = eventStructureType.MissionTips;
    }
 
     
 
 };  
+
+
+
+public enum eventStructureType
+{
+    MissionTips = 0,
+    Role = 1,
+    Coin = 2,
+    Item =3
+}
+//0=任务提示;1=英雄；2=金币 3=道具

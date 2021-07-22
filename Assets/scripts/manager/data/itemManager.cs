@@ -1,9 +1,7 @@
 
 
 using System.Collections;
-using manager;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace manager
 {
