@@ -1,0 +1,18 @@
+//镜头跟随
+
+设置一个脚本，绑定在camera上
+
+    public Transform player;
+
+    void Update()
+    {
+        //这是摄像机的transform
+        transform.position= new Vector3(player.position.x,player.position.y,-1000);
+    }
+
+cinemachine  ,跟踪镜头 --- unity的camera插件
+
+
+摄像机 Perspective【透视】 有景深
+Orthographic【正交】 无景深
+通常我们在unity中制作2D UI，或是2D游戏的时候，就会把Camera的投射选择此项，例如NGUI的UICamera组件，默认的视图就是正交，还有2DTookit，也会把Main Camera的视图选择成正交

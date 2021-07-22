@@ -1,0 +1,10 @@
+Input.GetKeyDown(KeyCode.E)   是否按下了E键
+if(Input.GetButtonDown("Jump")) {
+    //判断是否按下了...
+}
+Input.GetAxis("Horizontal");  //获取水平方向的输入
+
+
+
+
+UI有Button组件，组件有一个Onclick属性，拖入带脚本的gameObject,选择其中一个函数，就是click对应的函数了

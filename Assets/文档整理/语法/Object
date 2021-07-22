@@ -1,0 +1,96 @@
+    <li>通过对象名称（Find方法）</li>
+    <li>通过标签**单个游戏对象（FindWithTag方法）</li>
+    <li>通过标签获取多个游戏对象（FindGameObjectsWithTags方法）</li>
+    <li>通过类型获取单个游戏对象（FindObjectOfType方法）</li>
+    <li>通过类型获取多个游戏对象（FindObjectsOfType方法）</li>
+
+    例子：FindObjectOfType<PlayConrtoll>().ScoreCount();  找到go的PlayConrtoll类的实例
+
+    
+
+2D 物理组件对应于标准 3D 物理组件（例如刚体 (Rigidbody)、盒型碰撞体 (Box Collider) 和铰链关节 (Hinge Joint)
+内置 2D 物理系统（集成 Box2D 引擎）
+
+GameObject.Find("Canvas/MainMenu/UI").setActive(true) //设置子元素的某个层级的元素，进行设置
+
+
+一个script脚本，可以挂载在多个gameobject上面
+
+
+transform.localScale = new Vector3(direction,1,1);//改变方向
+
+
+public Rigidbody2D rb;  //定义 类型 变量名
+rb.velocity = new Vector2(move*speed,rb.velocity.y);//设置实例的运动
+//rb.velocity 是矢量，也就是施加的作用力
+
+
+前提是碰撞体也是Collider2D ，然后要勾选is Trigger
+//判断，碰撞并且销毁
+void OnTriggerEnter2D(Collider2D other)
+{
+    if (other.tag == "items")
+    {
+        Destroy(other.gameObject);
+    }
+}
+
+
+Perfabs ，预置  ，把做完的object反向拖到assets的一个文件夹内，等于做成了一个模板
+
+
+//获取另外一个class的实例，碰撞检测
+void OnCollisionEnter2D(Collision2D other) {
+    Enemy_Class intanceFrog = other.gameObject.GetComponent(<Enemy_Class>)();
+}
+
+
+
+
+
+bool 附加到该刚体的任何碰撞体是否正在接触指定 layerMask 上的任何碰撞体。
+
+
+刚体 (Rigidbody) 是实现游戏对象的物理行为的主要组件。连接刚体后，对象将立即响应重力。如果还添加了一个或多个__碰撞体__组件，则游戏对象会因发生碰撞而移动。
+
+属性
+
+Mass 质量，单位为Kg，建议不要让对象之间的质量差达到100倍以上
+Drag 空气阻力，为0表示没有阻力，infinity表示立即停止移动
+Angular Drag 扭力的阻力，数值意义同上
+Use Gravity 是否受重力影响
+
+component，可以在软件中，复制和黏贴
+
+
+
+OnCollisionEnter方法必须是在两个碰撞物体都不勾选isTrigger的前提下才能进入，反之只要勾选一个isTrigger那么就能进入OnTriggerEnter方法。
+
+OnCollisionEnter和OnTriggerEnter是冲突的不能同时存在的。
+
+2，OnTriggerEnter和OnCollisionEnter的选择。
+如果想实现两个刚体物理的实际碰撞效果时候用OnCollisionEnter，Unity引擎会自动处理刚体碰撞的效果。
+
+如果想在两个物体碰撞后自己处理碰撞事件用OnTriggerEnter。
+
+由于刚体组件会接管附加到的游戏对象的运动，因此不应试图借助脚本通过更改变换属性（如位置和旋转）来移动游戏对象。相反，应该施加__力__来推动游戏对象并让物理引擎计算结果。
+
+
+触发器 (碰撞体)
+脚本系统可以使用 OnCollisionEnter 函数检测何时发生碰撞并启动操作。但是，也可以直接使用物理引擎检测碰撞体何时进入另一个对象的空间而不会产生碰撞。配置为__触发器__（使用 Is Trigger 属性）的碰撞体不会表现为实体对象，只会允许其他碰撞体穿过。当碰撞体进入其空间时，触发器将在触发器对象的脚本上调用 OnTriggerEnter 函数。
+
+脚本碰撞回调
+发生碰撞时，物理引擎会在附加到相关对象的所有脚本上调用特定名称的函数。可以在这些函数中放置所需的任何代码来响应碰撞事件。例如，当汽车撞到障碍物时，可以播放碰撞音效。
+
+在第一个检测到碰撞的物理更新中，将调用 OnCollisionEnter 函数。在保持接触的更新期间，将调用 OnCollisionStay，最后由 OnCollisionExit 指示接触已经中断。触发碰撞体会调用模拟的 OnTriggerEnter、OnTriggerStay 和 OnTriggerExit 函数。请注意，对于 2D 物理，可使用在名称中附加了 2D 字样的等效函数，例如 OnCollisionEnter2D。有关这些函数和代码示例的完整详细信息，请参阅关于 MonoBehaviour 类的脚本参考页面。
+
+对于正常的非触发碰撞，还有一个额外的细节，即所涉及的对象中至少有一个对象必须具有非运动刚体（即，必须关闭 _Is Kinematic_）。如果两个对象都是运动刚体，则不会调用 OnCollisionEnter 等函数。对于触发碰撞，此限制不适用，因此运动和非运动刚体都会在进入触发碰撞体时提示调用 OnTriggerEnter。
+
+  OnCollisionEnter  OnTriggerEnter
+
+
+  Tilemap
+The Tilemap component is a system which stores and handles Tile Assets for creating 2D levels. It transfers the required information from the Tiles placed on it to other related components such as the Tilemap Renderer and the Tilemap Collider 2D. This package is not included in the Unity Editor default installation by default, and you will need to download the 2D Tilemap Editor package via the Package Manager.
+
+创建瓦片地图时，Grid 组件自动作为瓦片地图的父级，并在将瓦片布置到瓦片地图上时作为参照
+要创建、修改和选择要绘制到瓦片地图上的瓦片，请使用 Tile Palette（菜单：__Window > 2D > Tile Palette__）及其工具

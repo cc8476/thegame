@@ -1,0 +1,33 @@
+using UnityEngine.SceneManagement;
+
+//重新Load 当前场景
+SceneManager.LoadScene(SceneManager.GetActiveScene().name)//sceneName
+
+
+
+//退出游戏
+Application.Quit()//游戏测试中无法实现，生成的游戏，能实现
+
+
+cmd+d ,或者win+d,复制一个场景
+
+
+附加场景：
+if(SceneManager.GetSceneByName("EventPane").isLoaded == false)
+    SceneManager.LoadSceneAsync("EventPane", LoadSceneMode.Additive);
+else
+{
+    SceneManager.UnloadSceneAsync("EventPane");
+}
+
+获取场景实例：
+Scene scene = SceneManager.GetSceneAt(n);
+
+EventPane.cs 附加到EventPane的场景上
+
+
+
+
+
+
+

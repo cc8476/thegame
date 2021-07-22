@@ -1,0 +1,68 @@
+rawrole:
+角色属性：
+1.血量 hp
+2.攻击  att
+3.暴击  critial
+2.防御  def
+4.速度  speed
+3.暗抗性    darkres
+4.光抗性    lightres
+5.品质      qulity
+2.名字      name
+3.头像  headpic
+4.身体图片  bodypic
+6.购买花费  coin   
+
+role:
+id
+rawrole_id
+lv
+1.血量 hp
+2.攻击  att
+3.暴击  critial
+2.防御  def
+4.速度  speed
+3.暗抗性    darkres
+4.光抗性    lightres
+5.品质      qulity
+2.名字      name
+3.头像  headpic
+4.身体图片  bodypic
+6.购买花费  coin   
+
+8.order   
+cur血量
+status : 1=训练中 0= free
+
+
+
+
+
+
+对象：
+GameObject
+    TeamObject [
+        "人":role
+
+    ]
+    游戏等级：Number//重来也会继承
+    神器：  //神器的列表
+    道具:   //道具的列表
+    市场：Number //等级
+    酒馆：[人，人，人]
+    道具：[道具，道具，道具]
+    训练:[,,]
+
+    Turn:Number //第几波次
+    wave:Number //波次中的第几步
+    coin:Number//当前金币
+
+
+事件：
+trun =0
+wave=0,
+coin:
+rowrole:id
+item:
+miracle:
+

@@ -1,0 +1,5 @@
+UI元素，都必须在canvas上面
+
+public Text Cherrynumber;
+public int Score;
+Cherrynumber.text = Score.ToString();

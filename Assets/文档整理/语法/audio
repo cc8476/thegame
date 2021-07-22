@@ -1,0 +1,39 @@
+audio listener 接收声音  一般在摄像机下面
+
+audio source 音源   一般放在Player的组件audio source
+
+
+
+audio clips 音乐片段 
+
+
+protected AudioSource deathSound = GetComponent<AudioSource>()
+deathSound.Play();
+
+deathSound.enabled =false;//声音停止
+
+
+==========
+声音管理 
+public class SoundManager:MonoBehaviour {
+
+    public AudioSource audioSource;
+    public AudioClip jump,hur,cheery;
+
+    public static SoundManager instance;
+
+    //
+    private void Awake() {
+        instance = this;
+    }
+
+    //切换声音
+    public void Jump() {
+
+        audioSource.clip = jump;
+        audioSource.play()
+    }
+}
+
+//使用静态类的方法 (脚本还是必须挂载在gameObject)
+SoundManager.instance.Jump()

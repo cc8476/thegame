@@ -1,0 +1,16 @@
+Animator ator = go1.GetComponent<Animator>();
+ator.SetInteger("AnimState", 0);
+
+//设置animator的自定义参数
+animator.SetFloat("running",Mathf.Abs(direction));
+
+
+animator 和controller要一起用
+每个Animator Controller都会自带三个状态：Any State, Entry和 Exit
+
+
+
+给gameObject创建渐变效果的动画
+
+先在assets里创建一个animation ,然后拖拽到gameObject上，gameObject就有了自己的animator组件
+然后再animation面板上点击record，然后在几个间隔点上设置透明，位移等，就可以了
