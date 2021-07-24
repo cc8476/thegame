@@ -2,7 +2,7 @@ using manager;
 using UnityEngine;
 
 [System.Serializable]
-public struct RoleStruct
+public class RoleStruct
 {
     //继承自RawRole
    public int hp;//血量

@@ -108,6 +108,6 @@ public enum eventStructureType
     MissionTips = 0,
     Role = 1,
     Coin = 2,
-    Item =3
+    Item =3,
 }
 //0=任务提示;1=英雄；2=金币 3=道具

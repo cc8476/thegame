@@ -16,7 +16,9 @@ namespace manager
         public int wave =0;//当前波次
         public  ArrayList roleList;//角色列表
         public  ArrayList itemList;//道具列表
+        public ArrayList enmeyList;//当前波次的敌人列表
 
+        
         public void init()
         {
             //本场游戏,总的初始化
@@ -26,6 +28,8 @@ namespace manager
             RawRoleManager.init();
             eventManager.init();
             itemManager.init();
+            randomEventManager.init();
+            enemyManager.init();
 
         }
 
@@ -38,7 +42,7 @@ namespace manager
         }
         public void addCoin(int coin)
         {
-            Debug.Log("addCoin "+coin);
+            Debug.Log("游戏获得了coin: "+coin);
             GameManager.Instance.coin +=coin;
             SaveBin();
         }
