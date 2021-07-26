@@ -12,11 +12,13 @@ namespace manager
         static GameManager _instance;
         public int coin = 0;//金币
         public int level = 1;//等级
-        public int turn =0;//当前轮次
-        public int wave =0;//当前波次
+        public int turn =-1;//当前轮次
+        public int wave =-1;//当前波次
         public  ArrayList roleList;//角色列表
         public  ArrayList itemList;//道具列表
         public ArrayList enmeyList;//当前波次的敌人列表
+
+        public int roleIdIncrease = 1;//role的id,一直递增
 
         
         public void init()
@@ -37,6 +39,8 @@ namespace manager
         {
             Debug.Log("addRole");
             GameManager.Instance.roleList.Add(r);
+            r.id = roleIdIncrease;
+            roleIdIncrease += 1;
             SaveBin();
             
         }
@@ -45,6 +49,19 @@ namespace manager
             Debug.Log("游戏获得了coin: "+coin);
             GameManager.Instance.coin +=coin;
             SaveBin();
+        }
+
+        public RoleStruct getRoleFromId(int roleId)
+        {
+            foreach (RoleStruct role in roleList)
+            {
+                if(role.id == roleId)
+                {
+                    return role;
+                }
+            }
+            return null;
+            
         }
 
         public void addItem(itemStructure r)
@@ -67,23 +84,13 @@ namespace manager
             sd.level = GameManager.Instance.level;
             sd.turn = GameManager.Instance.turn;
             sd.wave = GameManager.Instance.wave;
+            sd.roleIdIncrease = GameManager.Instance.roleIdIncrease;
+            
             sd.roleList = GameManager.Instance.roleList;
             bf.Serialize(file, sd);
             file.Close();
         }
-        //检查是否有存档
-        public bool checkBin() {
-            string path = Application.dataPath + "/save.bin"; 
-            if(File.Exists(path)) {
-                Debug.Log("有存档？？");
-                return true;
-            }
-            else {
-                Debug.Log("无存档？？");
-                return false;
-            }
-        }
-
+        //读取存档
         public void ReadBin() {
             string path = Application.dataPath + "/save.bin"; 
             SaveData sd ;
@@ -96,8 +103,35 @@ namespace manager
             Debug.Log("读取日志 turn  "+sd.turn);
             Debug.Log("读取日志 wave  "+sd.wave);
 
+             GameManager.Instance.coin = sd.coin;
+             GameManager.Instance.level = sd.level;
+             GameManager.Instance.turn = sd.turn ;
+             GameManager.Instance.wave = sd.wave;
+            GameManager.Instance.roleIdIncrease = sd.roleIdIncrease;
+
+            GameManager.Instance.roleList = sd.roleList;
+
+
+            
+
         }
-        
+
+        //检查是否有存档
+        public bool checkBin()
+        {
+            string path = Application.dataPath + "/save.bin";
+            if (File.Exists(path))
+            {
+                Debug.Log("有存档？？");
+                return true;
+            }
+            else
+            {
+                Debug.Log("无存档？？");
+                return false;
+            }
+        }
+
 
         static public GameManager Instance
         {

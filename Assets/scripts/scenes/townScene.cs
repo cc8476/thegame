@@ -12,12 +12,10 @@ public class townScene : MonoBehaviour
     private Text waveTxt;//波次显示ui
 
 
-    // Start is called before the first frame update
     void Start()
     {
         Debug.Log("town scene");
         eventManager.checkEvents();
-
         mapBtn = GameObject.Find("Canvas/mapButton").GetComponent<Button>();
         mapBtn.onClick.AddListener(mapSceneFunc);
 
@@ -26,13 +24,12 @@ public class townScene : MonoBehaviour
         turnTxt = GameObject.Find("Canvas/turnTxt").GetComponent<Text>();
         waveTxt = GameObject.Find("Canvas/waveTxt").GetComponent<Text>();
 
-
     }
 
     void mapSceneFunc()
     {
         Debug.Log("You selected mapScene");
-        SceneManager.LoadScene("mapScene");//sceneName
+        SceneManager.LoadScene(Scene.mapScene);//sceneName
     }
 
     // Update is called once per frame

@@ -6,6 +6,9 @@ public struct SaveData
     public int level;//等级
     public int turn;//当前轮次
     public int wave;//当前波次
+
+    public int roleIdIncrease;//自增
+
     public System.Collections.ArrayList roleList;//角色列表
 
 }

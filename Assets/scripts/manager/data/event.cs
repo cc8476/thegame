@@ -14,6 +14,7 @@ public struct eventStructure
     public int miracleSending;//赠送的神器id
 
     public eventStructureType type;//0=任务提示;1=英雄；2=金币 3=道具
+    //type==0比较特殊，会在处理的时候，进行判断，然后会影响turn和wave
 
 
 

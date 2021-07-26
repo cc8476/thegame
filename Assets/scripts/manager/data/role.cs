@@ -5,6 +5,7 @@ using UnityEngine;
 public class RoleStruct
 {
     //继承自RawRole
+   public int id;//角色id 在游戏范围是唯一值，在添加(addRole)的时候被生成
    public int hp;//血量
    public int att;//攻击
    public int critial;//暴击

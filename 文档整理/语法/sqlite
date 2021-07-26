@@ -1,1 +1,10 @@
 https://zhuanlan.zhihu.com/p/93198248
+按照这篇文章要求，但是找不到mac匹配的dll
+
+然后在https://github.com/SamuelReyesAlvarez/Sqlite-in-Unity 这里找到终于是能用的了
+
+.dll 一定放在Assets/Plugins下面
+
+数据库文件，随便放
+
+数据库工具，我用的是sqliteManager ,小巧，免费，好用

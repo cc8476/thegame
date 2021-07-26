@@ -107,8 +107,8 @@ namespace manager
         public static void showRandomEvent(randomStructure item)
         {
             currentRandom = item;
-            if (SceneManager.GetSceneByName("randomPane").isLoaded == false) {
-                SceneManager.LoadScene("randomPane", LoadSceneMode.Additive);
+            if (SceneManager.GetSceneByName(Scene.randomPane).isLoaded == false) {
+                SceneManager.LoadScene(Scene.randomPane, LoadSceneMode.Additive);
             }
         }
 

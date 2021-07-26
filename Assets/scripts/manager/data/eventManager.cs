@@ -12,20 +12,20 @@ public class eventManager
     {
         list = new ArrayList();
         eventStructure e1 = new eventStructure();
-        e1.addHero("奖励英雄1",0,0,0);
+        e1.addHero("奖励英雄1",-1,-1,0);
 
         eventStructure e2 = new eventStructure();
-        e2.addHero("奖励英雄2", 0, 0, 1);
+        e2.addHero("奖励英雄2", -1, -1, 1);
 
         eventStructure e3 = new eventStructure();
-        e3.addHero("奖励英雄3", 0, 0, 2);
+        e3.addHero("奖励英雄3", 1, 1, 0);
         eventStructure e4 = new eventStructure();
-        e4.addCoin("奖励金币", 0,0,100);
+        e4.addCoin("奖励金币", -1, -1, 100);
         eventStructure e41 = new eventStructure();
-        e41.addItem("奖励道具", 0,0,0);
+        e41.addItem("奖励道具", -1, -1, 0);
 
         eventStructure e5 = new eventStructure();
-        e5.addGuide("开始战斗",0,0,"点击地图按钮，开始启程了！！！");
+        e5.addGuide("开始战斗", -1, -1, "点击地图按钮，开始启程了！！！");
 
         list.Add(e1);
         list.Add(e2);
@@ -39,8 +39,8 @@ public class eventManager
 
     public static void showEventPane(eventStructure e) {
         currentEvent = e;
-        if (SceneManager.GetSceneByName("EventPane").isLoaded == false) {
-            SceneManager.LoadScene("EventPane", LoadSceneMode.Additive);
+        if (SceneManager.GetSceneByName(Scene.EventPane).isLoaded == false) {
+            SceneManager.LoadScene(Scene.EventPane, LoadSceneMode.Additive);
         }
         //怎么获取scene ,然后设置面板？
     }
@@ -65,9 +65,7 @@ public class eventManager
                     list.Remove(e);
                     showEventPane(e);
                     return;
-                        
-                        
-                    
+
 
                 }
                 //增加金币
@@ -95,6 +93,17 @@ public class eventManager
                 {
                     list.Remove(e);
                     showEventPane(e);
+
+                    //初始化游戏后，turn和wave要从-1，-1改成0，0
+                    if (GameManager.Instance.wave == -1 && GameManager.Instance.turn == -1)
+                    {
+                        //TODO:: 应该每次修改GameManager的属性，自动调用SaveBin();
+                        GameManager.Instance.turn = 0;
+                        GameManager.Instance.wave = 0;
+                        GameManager.Instance.SaveBin();
+
+                        Debug.Log("初始化游戏后，turn和wave要从-1，-1改成0，0");
+                    }
                     return;
                 }
 

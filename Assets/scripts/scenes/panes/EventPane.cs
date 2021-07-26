@@ -42,14 +42,12 @@ public class EventPane : MonoBehaviour
             string headpic =role.headpic;
             Debug.Log("Application.streamingAssetsPath "+Application.streamingAssetsPath);
             Sprite sp  = ImageTool.LoadSpriteByIO( Application.streamingAssetsPath + headpic);
-
             pic.sprite = sp;
         }
         else if(eventManager.currentEvent.type==eventStructureType.Item) {
             itemStructure item = itemManager.GetItemByOrder(eventManager.currentEvent.itemSending);
             string headpic =item.headpic;
             Sprite sp  = ImageTool.LoadSpriteByIO( Application.streamingAssetsPath + headpic);
-
             pic.sprite = sp;
         }
 

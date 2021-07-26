@@ -59,7 +59,7 @@ public class introGame : MonoBehaviour
                 pane3.SetActive(true);
             break;
             case 4:
-                SceneManager.LoadScene("town");//sceneName
+                SceneManager.LoadScene(Scene.town);//sceneName
             break;
         }
     }

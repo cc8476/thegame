@@ -2,15 +2,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using manager;
-
+using Mono.Data.Sqlite;
 public class beginMenu : MonoBehaviour
 {
 
     private GameObject playBtn;//开始按钮
     private GameObject quitBtn;//退出按钮
     private GameObject continueBtn;//继续游戏
+
     void Start()
     {
+
         playBtn = GameObject.Find("Canvas/playBtn");
         playBtn.GetComponent<Button>().onClick.AddListener(playFunc);
 
@@ -29,7 +31,7 @@ public class beginMenu : MonoBehaviour
 
     void playFunc() {
         GameManager.Instance.init();
-        SceneManager.LoadScene("introGame");//sceneName
+        SceneManager.LoadScene(Scene.introGame);//sceneName
     }
     void quitFunc() {
         
@@ -37,6 +39,6 @@ public class beginMenu : MonoBehaviour
     void continueFunc() {
         GameManager.Instance.init();
         GameManager.Instance.ReadBin();
-        SceneManager.LoadScene("town");//sceneName
+        SceneManager.LoadScene(Scene.town);//sceneName
     }
 }

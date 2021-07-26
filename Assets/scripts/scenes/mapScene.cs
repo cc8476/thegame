@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class mapScene : MonoBehaviour
 {
-    //private Button mapBtn;//地图按钮
     private Text currentTurn;//轮次显示ui
     private Text currentWave;//波次显示ui
 
@@ -15,13 +14,10 @@ public class mapScene : MonoBehaviour
     private Button enemyBtn;//敌人按钮
 
     
-
-
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("map scene");
-
         currentTurn = GameObject.Find("Canvas/currentTurn").GetComponent<Text>();
         currentWave = GameObject.Find("Canvas/currentWave").GetComponent<Text>();
 
@@ -32,9 +28,6 @@ public class mapScene : MonoBehaviour
         eventBtn.onClick.AddListener(getEvent);
         enemyBtn.onClick.AddListener(IntoFight);
 
-
-
-
     }
 
     //进入战斗
@@ -43,7 +36,7 @@ public class mapScene : MonoBehaviour
         //生成当前轮次的敌人列表
         enemyManager.setCurrentList();
         //进入战斗
-        SceneManager.LoadScene("fightScene");
+        SceneManager.LoadScene(Scene.fightScene);
     }
 
     //生成随机事件
@@ -51,8 +44,6 @@ public class mapScene : MonoBehaviour
 
         randomEventManager.getRandomEvent();
         GameManager.Instance.wave += 1;
-
-
     }
 
 
@@ -63,7 +54,7 @@ public class mapScene : MonoBehaviour
         currentWave.text = "wave:" + GameManager.Instance.wave.ToString()+"/"+Rule.maxWave;
 
 
-                eventBtn.gameObject.SetActive(false);
+        eventBtn.gameObject.SetActive(false);
         bossBtn.gameObject.SetActive(false);
         enemyBtn.gameObject.SetActive(false);
 
