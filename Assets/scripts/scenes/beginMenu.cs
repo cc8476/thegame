@@ -13,15 +13,22 @@ public class beginMenu : MonoBehaviour
     void Start()
     {
 
+        RoleStruct r = new RoleStruct();
+        r.setValues();
+        ForeachClass.ForeachClassProperties<RoleStruct>(r);
+
         playBtn = GameObject.Find("Canvas/playBtn");
         playBtn.GetComponent<Button>().onClick.AddListener(playFunc);
 
+
         continueBtn = GameObject.Find("Canvas/continueBtn");
-        if(GameManager.Instance.checkBin()) {
+        if (GameManager.Instance.checkBin())
+        {
             continueBtn.GetComponent<Button>().onClick.AddListener(continueFunc);
             continueBtn.SetActive(true);
         }
-        else {
+        else
+        {
             continueBtn.SetActive(false);
         }
 

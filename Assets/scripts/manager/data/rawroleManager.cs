@@ -1,4 +1,5 @@
 using System.Collections;
+using Mono.Data.Sqlite;
 using UnityEngine;
 
 namespace manager
@@ -9,29 +10,50 @@ namespace manager
         public static void init()
         {
             list = new ArrayList();
-            //RawRoleStructure r1 = new RawRoleStructure();
-            //r1.setValues("新手英雄cc",100,20,5,20,20,20,20,1,"head1.png",0,"body1.png");
 
-            //RawRoleStructure r2 = new RawRoleStructure();
-            //r2.setValues("陈大诺");
+            SqliteDataReader SqlDataReader = SqlManager.Instance.getAllData("RawRole");
+            while(SqlDataReader.Read())
+            {
+                RawRoleStructure result = setValue(SqlDataReader);
+                list.Add(result);
+            }
 
-            //RawRoleStructure r3 = new RawRoleStructure();
-            //r3.setValues("新手英雄3");
+            SqlDataReader.Close();
 
-            //list.Add(r1);
-            //list.Add(r2);
-            //list.Add(r3);
 
-            //Debug.Log("RawRoleManager.list 完成初始化 "+RawRoleManager.list.Count);
+        }
 
+        public static RawRoleStructure setValue(SqliteDataReader SqlDataReader)
+        {
+
+            RawRoleStructure result = new RawRoleStructure();
+
+            result.name = (string)SqlDataReader["name"];
+            result.headpic = (string)SqlDataReader["headpic"];
+            result.Bodypic = (string)SqlDataReader["bodypic"];
+
+            result.id = int.Parse(SqlDataReader["id"].ToString());
+            result.critial = int.Parse(SqlDataReader["critial"].ToString());
+            result.def = int.Parse(SqlDataReader["def"].ToString());
+            result.speed = int.Parse(SqlDataReader["speed"].ToString());
+            result.darkres = int.Parse(SqlDataReader["darkres"].ToString());
+            result.lightres = int.Parse(SqlDataReader["lightres"].ToString());
+            result.quality = int.Parse(SqlDataReader["quality"].ToString());
+            result.coin = int.Parse(SqlDataReader["coin"].ToString());
+            result.att = int.Parse(SqlDataReader["att"].ToString());
+
+
+            return result;
         }
 
         public static RawRoleStructure GetRoleByOrder(int order) {
 
-            SqlManager.Instance.getDataById("RawRole", order);
-                
+            SqliteDataReader SqlDataReader = SqlManager.Instance.getDataById("RawRole", order);
+            RawRoleStructure result = setValue(SqlDataReader);
+            SqlDataReader.Close();
 
-            return (RawRoleStructure)list[order];
+            Debug.Log("GetRoleByOrder"+ order);
+            return result;
         }
 
     }

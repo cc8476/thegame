@@ -21,7 +21,7 @@ public class enemyStruct : RoleStruct
         this.speed = speed;
         this.darkres = darkres;
         this.lightres = lightres;
-        this.qulity = qulity;
+        this.quality = quality;
         this.name = name;
         this.headpic = "/enemy/" + headpic;
         this.coin = coin;

@@ -1,3 +1,12 @@
+（4）Start()第一个Update发生之前 （调用一次）
+（6）Update()大部分游戏行为代码被执行的地方，除了物理代码
+（8）OnGUI() 绘制GUI时调用
+FixedUpdate每秒执行固定次数，应该将处理跟物理相关的运动的代码放在FixedUpdate中。
+Update和LateUpdate跟硬件和代码性能有关，每秒执行次数不固定。
+OnGui:这个函数会每帧调用好几次（每个事件一次），GUI显示函数只能在OnGui中调用。备注：这个各大翻译都直接翻译成每帧调用一次了。下面是官方的原文。
+OnGui:This means that your OnGUI implementation might be called several times per frame 
+
+
 //延迟xx 秒后运行
 
 Invoke("functionName",2f)//秒

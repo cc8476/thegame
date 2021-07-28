@@ -22,6 +22,8 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void render(RoleStruct role)
     {
+        Debug.Log("zzzzzzzz" + JsonUtility.ToJson(role));
+
         transform.Find("Canvas/nameTxt").GetComponent<Text>().text = role.name;
         transform.Find("Canvas/hpTxt").GetComponent<Text>().text = role.hp.ToString();
         transform.Find("Canvas/bodyImg").GetComponent<Image>().sprite = ImageTool.LoadSpriteByIO(Application.streamingAssetsPath + role.bodypic);

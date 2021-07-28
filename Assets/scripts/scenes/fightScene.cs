@@ -75,10 +75,6 @@ public class fightScene : MonoBehaviour
 
         roleDisplay pane = (roleDisplay)instance.GetComponent(typeof(roleDisplay));
         pane.render(role);
-
-
-
-        //instance.transform.Find("Canvas/bodyImg").GetComponent<Outline>().enabled = false;
     }
 
 

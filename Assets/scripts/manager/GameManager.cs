@@ -38,6 +38,9 @@ namespace manager
         public void addRole(RoleStruct r)
         {
             Debug.Log("addRole");
+
+            SqlManager.Instance.insertData("role",r);
+
             GameManager.Instance.roleList.Add(r);
             r.id = roleIdIncrease;
             roleIdIncrease += 1;
