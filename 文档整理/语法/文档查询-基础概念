@@ -11,5 +11,3 @@ mono:跨平台；.net框架在不同平台上的补充
 unity中引入mono,也是为了实现跨平台
 
 
-Resources.load 是将物体加载到内存中去，
-Instantitate  是在Unity 中生成该物体，之后场景中就会出现该物体

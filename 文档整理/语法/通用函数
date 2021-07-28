@@ -1,0 +1,15 @@
+//json
+
+JsonUtility.FromJson():把json字符串转成对象.
+JsonUtility.ToJson():把对象转成json字符串.
+
+object object_instance = new object();
+Debug.Log("把object打印:"+JsonUtility.ToJson(object_instance));
+
+
+//Mathf
+Mathf.Abs(direction)  //数学
+
+
+Random r = new Random(); //声明一个随机数对象
+r.Next() % 100  //1～100的随即数赋值

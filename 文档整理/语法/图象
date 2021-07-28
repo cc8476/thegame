@@ -1,10 +1,10 @@
 Texture2D是一张二维图片 是由一颗一颗像素组成的
-Image 通过UGUI的Image和CanvasRenderer组件组件来渲染
 Sprite 通过SpriteRenderer组件来渲染
+Image 通过UGUI的Image和CanvasRenderer组件组件来渲染
 
 
-Texture2D的实例 ，有 LoadImage(byte[] binary)
- Sprite tempSprite = Sprite.Create(Texture2D的实例)
+三者关系：
+sprite =new Sprite(某个texture2D)
+Image.sprite = 某个sprite;
 
- public Image image;
- image.sprite=tempSprite
+GameObject一般附加Image组件

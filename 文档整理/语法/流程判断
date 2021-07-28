@@ -8,7 +8,6 @@ OnGui:This means that your OnGUI implementation might be called several times pe
 
 
 //延迟xx 秒后运行
-
 Invoke("functionName",2f)//秒
 
 
@@ -22,61 +21,8 @@ Time.timeScale =1f;
 变成慢动作了
 Time.timeScale =0.5f; 
 
+tips:
+    FixedUpdate 替代 Update ,确保平滑
 
-Debug.Log("sssssss");
-
-
-
-打开对话框
-//对一个门的object,设置player 碰撞时，打开对话框
-public class EnterDialog:MonoBehaviour {
-
-    public GameObject enterDialog;//把ui上的对话框赋值给这个对象
-    //需要设置门为碰撞体，并且勾选is Trigger
-    private void OnTriggerEnter2D(Collider2D other) {
-
-        if(other.tag='player') {
-            enterDialog.SetActive(true)//对话框，默认不激活
-        }
-    }
-}
-
-
-背景的移动，增加视差：
-transform.position = new Vector2(StartPoint - Cam.position.x * moveRate, transform.position.y);
-
-
-本地数据存储：
-//保存数据
-
-PlayerPrefs.SetString("Name",mName);
-PlayerPrefs.SetInt("Age",mAge);
-PlayerPrefs.SetFloat("Grade",mGrade)
-1
-2
-3
-//读取数据
-
-mName=PlayerPrefs.GetString("Name","DefaultValue");
-mAge=PlayerPrefs.GetInt("Age",0);
-mGrade=PlayerPrefs.GetFloat("Grade",0F);
-1
-2
-3
-//清除所有记录
-
- PlayerPrefs.DeleteAll();
-1
-//删除其中某一条记录
-
-PlayerPrefs.DeleteKey("Age");
-1
-//将记录写入磁盘
-
-PlayerPrefs.Save()
-
-
-//json
-
-JsonUtility.FromJson():把json字符串转成对象.
-JsonUtility.ToJson():把对象转成json字符串.
+//* Time.deltaTime  确保平滑
+    rb.velocity = new Vector2(move*speed * Time.deltaTime,rb.velocity.y);

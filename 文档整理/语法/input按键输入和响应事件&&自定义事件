@@ -12,7 +12,7 @@ UI有Button组件，组件有一个Onclick属性，拖入带脚本的gameObject,
 
 鼠标事件：
 
-针对3d???
+针对 GameObject:
 
 void OnMouseOver()
 {

@@ -1,24 +1,26 @@
-    <li>通过对象名称（Find方法）</li>
-    <li>通过标签**单个游戏对象（FindWithTag方法）</li>
-    <li>通过标签获取多个游戏对象（FindGameObjectsWithTags方法）</li>
-    <li>通过类型获取单个游戏对象（FindObjectOfType方法）</li>
-    <li>通过类型获取多个游戏对象（FindObjectsOfType方法）</li>
+通过[对象名称]（Find方法）
+通过[标签]单个游戏对象（FindWithTag方法）
+通过[标签]获取多个游戏对象（FindGameObjectsWithTags方法）
+通过[类型]获取单个游戏对象（FindObjectOfType方法）
+通过[类型]获取多个游戏对象（FindObjectsOfType方法）
 
-    例子：FindObjectOfType<PlayConrtoll>().ScoreCount();  找到go的PlayConrtoll类的实例
-
+例子：FindObjectOfType<PlayConrtoll>().ScoreCount();  找到go的PlayConrtoll类的实例，并调用api
+例子：GameObject.Find("Canvas/MainMenu/UI").setActive(true) //设置子元素的某个层级的元素，进行设置
     
 
 2D 物理组件对应于标准 3D 物理组件（例如刚体 (Rigidbody)、盒型碰撞体 (Box Collider) 和铰链关节 (Hinge Joint)
 内置 2D 物理系统（集成 Box2D 引擎）
 
-GameObject.Find("Canvas/MainMenu/UI").setActive(true) //设置子元素的某个层级的元素，进行设置
+刚体 (Rigidbody) 是实现游戏对象的物理行为的主要组件。连接刚体后，对象将立即响应重力。如果还添加了一个或多个__碰撞体__组件，则游戏对象会因发生碰撞而移动。
 
+属性
 
-一个script脚本，可以挂载在多个gameobject上面
+Mass 质量，单位为Kg，建议不要让对象之间的质量差达到100倍以上
+Drag 空气阻力，为0表示没有阻力，infinity表示立即停止移动
+Angular Drag 扭力的阻力，数值意义同上
+Use Gravity 是否受重力影响
 
-
-transform.localScale = new Vector3(direction,1,1);//改变方向
-
+component，可以在软件中，复制和黏贴
 
 public Rigidbody2D rb;  //定义 类型 变量名
 rb.velocity = new Vector2(move*speed,rb.velocity.y);//设置实例的运动
@@ -44,23 +46,8 @@ void OnCollisionEnter2D(Collision2D other) {
     Enemy_Class intanceFrog = other.gameObject.GetComponent(<Enemy_Class>)();
 }
 
-
-
-
-
 bool 附加到该刚体的任何碰撞体是否正在接触指定 layerMask 上的任何碰撞体。
 
-
-刚体 (Rigidbody) 是实现游戏对象的物理行为的主要组件。连接刚体后，对象将立即响应重力。如果还添加了一个或多个__碰撞体__组件，则游戏对象会因发生碰撞而移动。
-
-属性
-
-Mass 质量，单位为Kg，建议不要让对象之间的质量差达到100倍以上
-Drag 空气阻力，为0表示没有阻力，infinity表示立即停止移动
-Angular Drag 扭力的阻力，数值意义同上
-Use Gravity 是否受重力影响
-
-component，可以在软件中，复制和黏贴
 
 
 
@@ -94,3 +81,19 @@ The Tilemap component is a system which stores and handles Tile Assets for creat
 
 创建瓦片地图时，Grid 组件自动作为瓦片地图的父级，并在将瓦片布置到瓦片地图上时作为参照
 要创建、修改和选择要绘制到瓦片地图上的瓦片，请使用 Tile Palette（菜单：__Window > 2D > Tile Palette__）及其工具
+
+
+
+打开对话框
+//对一个门的object,设置player 碰撞时，打开对话框
+public class EnterDialog:MonoBehaviour {
+
+    public GameObject enterDialog;//把ui上的对话框赋值给这个对象
+    //需要设置门为碰撞体，并且勾选is Trigger
+    private void OnTriggerEnter2D(Collider2D other) {
+
+        if(other.tag='player') {
+            enterDialog.SetActive(true)//对话框，默认不激活
+        }
+    }
+}
