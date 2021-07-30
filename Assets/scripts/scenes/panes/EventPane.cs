@@ -38,14 +38,15 @@ public class EventPane : MonoBehaviour
 
         //奖励是role
         if(eventManager.currentEvent.type==eventStructureType.Role) {
-            RawRoleStructure role = RawRoleManager.GetRoleByOrder(eventManager.currentEvent.roleIdSending);
+            RawRoleStructure role = rawroleTable.Instance.getDataById(eventManager.currentEvent.roleIdSending);
+
             string headpic =role.headpic;
             Debug.Log("Application.streamingAssetsPath "+Application.streamingAssetsPath);
             Sprite sp  = ImageTool.LoadSpriteByIO( Application.streamingAssetsPath + headpic);
             pic.sprite = sp;
         }
         else if(eventManager.currentEvent.type==eventStructureType.Item) {
-            itemStructure item = itemManager.GetItemByOrder(eventManager.currentEvent.itemSending);
+            itemStructure item = itemTable.Instance.getDataById(eventManager.currentEvent.itemSending);
             string headpic =item.headpic;
             Sprite sp  = ImageTool.LoadSpriteByIO( Application.streamingAssetsPath + headpic);
             pic.sprite = sp;

@@ -1,5 +1,6 @@
 
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -14,39 +15,23 @@ namespace manager
         public int level = 1;//等级
         public int turn =-1;//当前轮次
         public int wave =-1;//当前波次
-        public  ArrayList roleList;//角色列表
-        public  ArrayList itemList;//道具列表
-        public ArrayList enmeyList;//当前波次的敌人列表
+        public  List<int> itemList;//道具列表
+        public List<int> enemyList;//当前波次的敌人列表
 
-        public int roleIdIncrease = 1;//role的id,一直递增
 
         
         public void init()
         {
             //本场游戏,总的初始化
             Debug.Log("GameManager 初始化");
-            roleList = new ArrayList();
-            itemList = new ArrayList();
-            RawRoleManager.init();
+            itemList = new List<int>();
+            enemyList = new List<int>();
             eventManager.init();
-            itemManager.init();
             randomEventManager.init();
-            enemyManager.init();
+            roleTable.Instance.clearData();
 
         }
 
-        public void addRole(RoleStruct r)
-        {
-            Debug.Log("addRole");
-
-            SqlManager.Instance.insertData("role",r);
-
-            GameManager.Instance.roleList.Add(r);
-            r.id = roleIdIncrease;
-            roleIdIncrease += 1;
-            SaveBin();
-            
-        }
         public void addCoin(int coin)
         {
             Debug.Log("游戏获得了coin: "+coin);
@@ -54,23 +39,28 @@ namespace manager
             SaveBin();
         }
 
-        public RoleStruct getRoleFromId(int roleId)
-        {
-            foreach (RoleStruct role in roleList)
+        public void setCurrentEnemyList() {
+            int currentTurn = GameManager.Instance.turn;
+            int count = 0;
+
+            List<enemyStruct> eList = enemyTable.Instance.getAllData();
+            foreach (enemyStruct item in eList)
             {
-                if(role.id == roleId)
+                if (count == 3) break;
+                if(item.turnMin<= currentTurn  && item.turnMax >= currentTurn)
                 {
-                    return role;
+                    GameManager.Instance.enemyList.Add(item.id);
+                    count++;
                 }
             }
-            return null;
-            
+
         }
 
-        public void addItem(itemStructure r)
+
+
+        public void addItem(int itemId)
         {
-            Debug.Log("addItem");
-            GameManager.Instance.itemList.Add(r);
+            GameManager.Instance.itemList.Add(itemId);
             SaveBin();
         }
         
@@ -87,9 +77,9 @@ namespace manager
             sd.level = GameManager.Instance.level;
             sd.turn = GameManager.Instance.turn;
             sd.wave = GameManager.Instance.wave;
-            sd.roleIdIncrease = GameManager.Instance.roleIdIncrease;
-            
-            sd.roleList = GameManager.Instance.roleList;
+            sd.itemList = GameManager.Instance.itemList;
+            sd.enemyList = GameManager.Instance.enemyList;
+
             bf.Serialize(file, sd);
             file.Close();
         }
@@ -110,9 +100,9 @@ namespace manager
              GameManager.Instance.level = sd.level;
              GameManager.Instance.turn = sd.turn ;
              GameManager.Instance.wave = sd.wave;
-            GameManager.Instance.roleIdIncrease = sd.roleIdIncrease;
+             GameManager.Instance.itemList = sd.itemList;
+             GameManager.Instance.enemyList = sd.enemyList;
 
-            GameManager.Instance.roleList = sd.roleList;
 
 
             

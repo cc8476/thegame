@@ -59,3 +59,54 @@ RemoveAt方法用于删除一个元素，通过索引值来删除
 RemoveRange用于删除一批元素，通过指定开始的索引和删除的数量来删除
 Insert用于添加一个元素到指定位置，列表后面的元素依次往后移动
 InsertRange用于从指定位置开始添加一批元素，列表后面的元素依次往后移动
+
+
+
+### 反射类的实例的属性：
+Type t = model.GetType();
+PropertyInfo[] PropertyList = t.GetProperties();
+
+
+foreach (PropertyInfo item in PropertyList)
+{
+    string name = item.Name;
+    object value = item.GetValue(model, null);
+
+    Debug.Log("FFFFF:" + name + "," + value);
+}
+
+c#的class中，属性和成员变量是2个概念
+
+   public string name;//  这个是成员变量
+   public string headpic { get; set; }//  这个才是属性，只有这个能遍历
+
+
+   Type t = model.GetType();
+   PropertyInfo[] PropertyList = t.GetProperties();
+
+   当然，还有对应t.GetMembers();//但是会打印出来所有的Member,包括系统给出的，这样就不好遍历了
+
+
+父类定义 virtual
+    public virtual object getDataById(int id)
+    {
+        return new object();
+    }
+
+子类才可以override
+public override object getDataById(int id)
+        {
+            
+        }
+
+
+
+泛型List 
+
+
+        public List<RawRoleStructure> getAllData()
+        {
+
+            List<RawRoleStructure> list = new List<RawRoleStructure>();
+            return list;
+        }

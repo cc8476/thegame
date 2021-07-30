@@ -1,8 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using manager;
-using Mono.Data.Sqlite;
+using UnityEngine;
+using UnityEngine.UI;
+
 public class beginMenu : MonoBehaviour
 {
 
@@ -12,10 +12,6 @@ public class beginMenu : MonoBehaviour
 
     void Start()
     {
-
-        RoleStruct r = new RoleStruct();
-        r.setValues();
-        ForeachClass.ForeachClassProperties<RoleStruct>(r);
 
         playBtn = GameObject.Find("Canvas/playBtn");
         playBtn.GetComponent<Button>().onClick.AddListener(playFunc);

@@ -7,8 +7,7 @@ OnGui:这个函数会每帧调用好几次（每个事件一次），GUI显示�
 OnGui:This means that your OnGUI implementation might be called several times per frame 
 
 
-//延迟xx 秒后运行
-Invoke("functionName",2f)//秒
+
 
 
 当游戏暂停：

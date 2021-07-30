@@ -2,3 +2,10 @@
 transform.position = new Vector2(StartPoint - Cam.position.x * moveRate, transform.position.y);
 
 transform.localScale = new Vector3(direction,1,1);//改变方向
+
+//将物体以30米每秒的速度向前移动。
+trasform.Translate(Vector3.forward*speed*Time.deltaTime);
+
+
+transform :游戏对象始终附加一个transform组件，无法删除transform组件或创建没有transform组件的游戏对象
+变换组件的位置、旋转和缩放值是相对于变换组件的父项测量的。如果变换组件没有父项，则按照世界空间来测量属性。

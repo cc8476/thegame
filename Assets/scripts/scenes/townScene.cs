@@ -37,7 +37,7 @@ public class townScene : MonoBehaviour
     {
         //TODO::数据的更新，除了依赖update()外，还能监听GameManager吗？
         coinTxt.text = "coin:"+GameManager.Instance.coin.ToString();
-        roleTxt.text = "role:"+GameManager.Instance.roleList.Count.ToString();
+        roleTxt.text = "role:"+roleTable.Instance.getAllData().Count.ToString();
         waveTxt.text = "wave:"+GameManager.Instance.turn.ToString();
         turnTxt.text = "turn:"+GameManager.Instance.wave.ToString();
     }

@@ -35,7 +35,7 @@ public class rolePane : MonoBehaviour
     public void render(int roleId)
     {
         //从roldId中获取role
-        RoleStruct role = GameManager.Instance.getRoleFromId(roleId);
+        RoleStruct role =  roleTable.Instance.getDataById(roleId);
         roleNameTxt.text = role.name;
         roleHpTxt.text = role.hp.ToString();
         attTxt.text = role.att.ToString();

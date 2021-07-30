@@ -58,9 +58,7 @@ public class eventManager
                 //增加角色
                 if (e.type == eventStructureType.Role)
                 {
-                    RoleStruct r = new RoleStruct();
-                    r.getFromRow(e.roleIdSending);
-                    GameManager.Instance.addRole(r);
+                    roleTable.Instance.insertByRawRoleId(e.roleIdSending);
 
                     list.Remove(e);
                     showEventPane(e);
@@ -81,8 +79,8 @@ public class eventManager
                 //增加道具
                 else if (e.type ==eventStructureType.Item)
                 {
-                    itemStructure r = itemManager.GetItemByOrder(e.roleIdSending);
-                    GameManager.Instance.addItem(r);
+                    
+                    GameManager.Instance.addItem(e.roleIdSending);
 
                     list.Remove(e);
                     showEventPane(e);

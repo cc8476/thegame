@@ -1,1 +1,1 @@
-﻿GameManager.Instance.roleList  去掉这个写法
+﻿

@@ -34,7 +34,7 @@ public class mapScene : MonoBehaviour
     private void IntoFight()
     {
         //生成当前轮次的敌人列表
-        enemyManager.setCurrentList();
+        GameManager.Instance.setCurrentEnemyList();
         //进入战斗
         SceneManager.LoadScene(Scene.fightScene);
     }

@@ -1,5 +1,6 @@
 
 using System.Collections;
+using System.Collections.Generic;
 using manager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,7 +24,7 @@ public class fightScene : MonoBehaviour
 
 
         //展示role的人物形象
-        ArrayList roleList = GameManager.Instance.roleList;
+        List<RoleStruct> roleList = roleTable.Instance.getAllData();
         int positionrole_x = 0;
         foreach (RoleStruct role in roleList)
         {
@@ -34,12 +35,12 @@ public class fightScene : MonoBehaviour
 
 
         //展示enemy的人物形象
-        ArrayList enmeyList = GameManager.Instance.enmeyList;
+        List<int> enemyList = GameManager.Instance.enemyList;
         int positionenemy_x = 300;
-        foreach (enemyStruct role in enmeyList)
+        foreach (int enemyId in enemyList)
         {
+            enemyStruct enemy =  enemyTable.Instance.getDataById(enemyId);
             Vector3 v = new Vector3(canvas.transform.position.x + positionenemy_x, canvas.transform.position.y, canvas.transform.position.z);
-            render("roleDisplay", v, role);
             positionenemy_x += 50;
         }
 
@@ -83,11 +84,12 @@ public class fightScene : MonoBehaviour
 
         //TODO::改成用Prefab的形式
         //展示item和role的图标列表
-        ArrayList itemList = GameManager.Instance.itemList;
+        List<int> itemList = GameManager.Instance.itemList;
         int position_x = 0;
         int position_y = 50;
-        foreach (itemStructure item in itemList)
+        foreach (int itemId in itemList)
         {
+            itemStructure item =  itemTable.Instance.getDataById(itemId);
             string headpic = item.headpic;
             Texture2D sp = ImageTool.LoadTexture2DByIO(Application.streamingAssetsPath + headpic);
             GUI.Box(new Rect(position_x, position_y, 50, 50), sp);
@@ -96,7 +98,7 @@ public class fightScene : MonoBehaviour
 
         //展示item和role的图标列表
         //展示role的人物形象
-        ArrayList roleList = GameManager.Instance.roleList;
+        List<RoleStruct> roleList = roleTable.Instance.getAllData();
         position_y = 100;
         foreach (RoleStruct role in roleList)
         {

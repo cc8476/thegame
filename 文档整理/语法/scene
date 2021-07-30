@@ -27,6 +27,9 @@ EventPane.cs 附加到EventPane的场景上
 
 
 
+MoveGameObjectToScene  移动一个物体从它当前场景到一个新的场景中。它必须要求该物体在当前场景的根目录下。
+UnloadScene   卸载所有和指定场景关联的物体。
+
 
 
 

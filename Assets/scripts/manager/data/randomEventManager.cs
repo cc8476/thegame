@@ -81,16 +81,15 @@ namespace manager
                     break;
                 case randomEventType.Role:
                     RoleStruct r = new RoleStruct();
-                    int roleId = Random.Range(0, RawRoleManager.list.Count);
-                    r.getFromRow(roleId);
-                    GameManager.Instance.addRole(r);
+                    int count = rawroleTable.Instance.getAllData().Count;
+                    int roleId = Random.Range(0, count);
+                    roleTable.Instance.insertByRawRoleId(roleId);
                     showEvent.roleIdSending = roleId;
 
                     break;
                 case randomEventType.Item:
                     int itemId = Random.Range(0, itemManager.list.Count);
-                    itemStructure rr = itemManager.GetItemByOrder(itemId);
-                    GameManager.Instance.addItem(rr);
+                    GameManager.Instance.addItem(itemId);
 
                     showEvent.itemSending = itemId;
                     break;
