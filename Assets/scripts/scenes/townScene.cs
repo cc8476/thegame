@@ -15,7 +15,7 @@ public class townScene : MonoBehaviour
     void Start()
     {
         Debug.Log("town scene");
-        eventManager.checkEvents();
+        GameManager.Instance.checkEvents();
         mapBtn = GameObject.Find("Canvas/mapButton").GetComponent<Button>();
         mapBtn.onClick.AddListener(mapSceneFunc);
 
@@ -23,6 +23,8 @@ public class townScene : MonoBehaviour
         roleTxt = GameObject.Find("Canvas/roleTxt").GetComponent<Text>();
         turnTxt = GameObject.Find("Canvas/turnTxt").GetComponent<Text>();
         waveTxt = GameObject.Find("Canvas/waveTxt").GetComponent<Text>();
+
+        Debug.Log("town scene"+coinTxt);
 
     }
 

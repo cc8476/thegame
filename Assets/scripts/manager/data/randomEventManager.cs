@@ -65,7 +65,7 @@ namespace manager
 
             //处理目标数据，添加到GameManager
             Debug.Log("goalItem");
-            eventStructure showEvent=new eventStructure();
+            eventStruct showEvent=new eventStruct();
             showEvent.name = goalItem.name;
             showEvent.des = goalItem.des;
             showEvent.pic = goalItem.pic;
@@ -88,16 +88,16 @@ namespace manager
 
                     break;
                 case randomEventType.Item:
-                    int itemId = Random.Range(0, itemManager.list.Count);
+                    int itemId = Random.Range(0, GameManager.Instance.itemList.Count);
                     GameManager.Instance.addItem(itemId);
 
-                    showEvent.itemSending = itemId;
+                    showEvent.itemIdSending = itemId;
                     break;
 
                     
             }
 
-                eventManager.showEventPane(showEvent);
+                GameManager.Instance.showEventPane(showEvent);
 
         }
 

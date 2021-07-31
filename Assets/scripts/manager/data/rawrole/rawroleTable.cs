@@ -31,11 +31,11 @@ public class rawroleTable
             while (SqlReader.Read())
             {
                 result.name = (string)SqlReader["name"];
-                result.headpic = (string)SqlReader["headpic"];
-                result.bodypic = (string)SqlReader["bodypic"];
+                result.headpic = "/role/" + (string)SqlReader["headpic"];
+                result.bodypic = "/role/" + (string)SqlReader["bodypic"];
 
                 result.id = int.Parse(SqlReader["id"].ToString());
-                result.critial = int.Parse(SqlReader["critial"].ToString());
+                result.critical = int.Parse(SqlReader["critical"].ToString());
                 result.def = int.Parse(SqlReader["def"].ToString());
                 result.speed = int.Parse(SqlReader["speed"].ToString());
                 result.darkres = int.Parse(SqlReader["darkres"].ToString());
@@ -65,11 +65,11 @@ public class rawroleTable
                 RawRoleStructure result = new RawRoleStructure();
 
                 result.name = (string)SqlReader["name"];
-                result.headpic = (string)SqlReader["headpic"];
-                result.bodypic = (string)SqlReader["bodypic"];
+                result.headpic = "/role/" + (string)SqlReader["headpic"];
+                result.bodypic = "/role/" + (string)SqlReader["bodypic"];
 
                 result.id = int.Parse(SqlReader["id"].ToString());
-                result.critial = int.Parse(SqlReader["critial"].ToString());
+                result.critical = int.Parse(SqlReader["critical"].ToString());
                 result.def = int.Parse(SqlReader["def"].ToString());
                 result.speed = int.Parse(SqlReader["speed"].ToString());
                 result.darkres = int.Parse(SqlReader["darkres"].ToString());

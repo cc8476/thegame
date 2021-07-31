@@ -29,24 +29,25 @@ public class EventPane : MonoBehaviour
         pic = GameObject.Find("Canvas/pic").GetComponent<Image>();
         pic.sprite = null;
 
-        Debug.Log("EventPane e.name "+eventManager.currentEvent.name);
-        Debug.Log("EventPane e.des "+eventManager.currentEvent.des);
 
-        title.text = eventManager.currentEvent.name;
-        des.text = eventManager.currentEvent.des;
+
+        eventStruct currentEvent = GameManager.Instance.currentEvent;
+
+        title.text = currentEvent.name;
+        des.text = currentEvent.des;
 
 
         //奖励是role
-        if(eventManager.currentEvent.type==eventStructureType.Role) {
-            RawRoleStructure role = rawroleTable.Instance.getDataById(eventManager.currentEvent.roleIdSending);
+        if(currentEvent.type==eventStructType.Role) {
+            RawRoleStructure role = rawroleTable.Instance.getDataById(currentEvent.roleIdSending);
 
             string headpic =role.headpic;
             Debug.Log("Application.streamingAssetsPath "+Application.streamingAssetsPath);
             Sprite sp  = ImageTool.LoadSpriteByIO( Application.streamingAssetsPath + headpic);
             pic.sprite = sp;
         }
-        else if(eventManager.currentEvent.type==eventStructureType.Item) {
-            itemStructure item = itemTable.Instance.getDataById(eventManager.currentEvent.itemSending);
+        else if(currentEvent.type==eventStructType.Item) {
+            itemStructure item = itemTable.Instance.getDataById(currentEvent.itemIdSending);
             string headpic =item.headpic;
             Sprite sp  = ImageTool.LoadSpriteByIO( Application.streamingAssetsPath + headpic);
             pic.sprite = sp;
@@ -57,7 +58,7 @@ public class EventPane : MonoBehaviour
     void closeFunc() {
         SceneManager.UnloadSceneAsync("EventPane");
 
-        eventManager.checkEvents();
+        GameManager.Instance.checkEvents();
     }
 
 

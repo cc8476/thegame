@@ -39,7 +39,7 @@ public class rolePane : MonoBehaviour
         roleNameTxt.text = role.name;
         roleHpTxt.text = role.hp.ToString();
         attTxt.text = role.att.ToString();
-        criticalTxt.text = role.critial.ToString();
+        criticalTxt.text = role.critical.ToString();
         defTxt.text = role.def.ToString();
         speedTxt.text = role.speed.ToString();
         darkresTxt.text = role.darkres.ToString();

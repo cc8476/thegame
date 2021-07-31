@@ -5,7 +5,7 @@ public class RawRoleStructure
     public int id;//血量
     public int hp;//血量
    public int att;//攻击
-   public int critial;//暴击
+   public int critical;//暴击
    public int def;//防御
    public int speed;//速度
    public int darkres;//暗抗性

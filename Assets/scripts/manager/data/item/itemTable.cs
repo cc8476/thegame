@@ -28,20 +28,7 @@ public class itemTable
             SqlReader.Close();
         }
 
-        public void insertByRawRoleId(int rowroleId)
-        {
-            RawroleStruct r = rawitemTable.Instance.getDataById(rowroleId);
-            string sqlQuery = string.Format(
-                "insert into role (hp, att, critical,def,speed,darkres,lightres,quality," +
-                "name,headpic,bodypic,coin,rawRoleId,order,status,curhp) values" +
-                " (\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\",\"{14}\",\"{15}\")",
-                r.hp, r.att,r.critial,r.def,r.speed,r.darkres,r.lightres,r.quality,r.name,r.headpic,r.bodypic,r.coin,r.id,r.order,r.status,r.curhp);// table name
-
-            SqlCommand.CommandText = sqlQuery;
-            SqlReader = SqlCommand.ExecuteReader();
-            SqlReader.Close();
-
-    }
+        
 
         public itemStructure getDataById(int id)
         {
@@ -52,12 +39,9 @@ public class itemTable
             while (SqlReader.Read())
             {
                 result.name = (string)SqlReader["name"];
-                result.type = (string)SqlReader["headpic"];
-                result.headpic = (string)SqlReader["bodypic"];
-
+                result.type = (int)SqlReader["type"];
+                result.headpic = "/item/" + (string)SqlReader["headpic"];
                 result.id = int.Parse(SqlReader["id"].ToString());
-
-
         }
 
             SqlReader.Close();
@@ -66,36 +50,23 @@ public class itemTable
         }
 
 
-        public List<RoleStruct> getAllData()
+        public List<itemStructure> getAllData()
         {
             //获取全部数据
             SqlCommand.CommandText = "SELECT * FROM item";
             SqlReader = SqlCommand.ExecuteReader();
 
-            List<RoleStruct> list = new List<RoleStruct>();
+            List<itemStructure> list = new List<itemStructure>();
 
             while (SqlReader.Read())
             {
-                RoleStruct result = new RoleStruct();
+            itemStructure result = new itemStructure();
 
                 result.name = (string)SqlReader["name"];
-                result.headpic = (string)SqlReader["headpic"];
-                result.bodypic = (string)SqlReader["bodypic"];
+                result.type = (int)SqlReader["type"];
+                result.headpic = "/item/" + (string)SqlReader["bodypic"];
 
                 result.id = int.Parse(SqlReader["id"].ToString());
-                result.critial = int.Parse(SqlReader["critial"].ToString());
-                result.def = int.Parse(SqlReader["def"].ToString());
-                result.speed = int.Parse(SqlReader["speed"].ToString());
-                result.darkres = int.Parse(SqlReader["darkres"].ToString());
-                result.lightres = int.Parse(SqlReader["lightres"].ToString());
-                result.quality = int.Parse(SqlReader["quality"].ToString());
-                result.coin = int.Parse(SqlReader["coin"].ToString());
-                result.att = int.Parse(SqlReader["att"].ToString());
-
-                result.rawRoldId = int.Parse(SqlReader["rawRoldId"].ToString());
-                result.order = int.Parse(SqlReader["order"].ToString());
-                result.curhp = int.Parse(SqlReader["curhp"].ToString());
-                result.status = int.Parse(SqlReader["status"].ToString());
 
                 list.Add(result);
 

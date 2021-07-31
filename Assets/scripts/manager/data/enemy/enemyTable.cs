@@ -21,7 +21,7 @@ public class enemyTable
             SqlCommand = SqlConnection.CreateCommand();
         }
 
-        public RawRoleStructure getDataById(int id)
+        public enemyStruct getDataById(int id)
         {
             SqlCommand.CommandText = "SELECT * FROM enemy WHERE id = " + id;
             SqlReader = SqlCommand.ExecuteReader();
@@ -30,11 +30,11 @@ public class enemyTable
             while (SqlReader.Read())
             {
                 result.name = (string)SqlReader["name"];
-                result.headpic = (string)SqlReader["headpic"];
-                result.bodypic = (string)SqlReader["bodypic"];
+                result.headpic = "/enemy/" + (string)SqlReader["headpic"];
+                result.bodypic = "/enemy/" + (string)SqlReader["bodypic"];
 
                 result.id = int.Parse(SqlReader["id"].ToString());
-                result.critial = int.Parse(SqlReader["critial"].ToString());
+                result.critical = int.Parse(SqlReader["critical"].ToString());
                 result.def = int.Parse(SqlReader["def"].ToString());
                 result.speed = int.Parse(SqlReader["speed"].ToString());
                 result.darkres = int.Parse(SqlReader["darkres"].ToString());
@@ -72,7 +72,7 @@ public class enemyTable
                 result.bodypic = (string)SqlReader["bodypic"];
 
                 result.id = int.Parse(SqlReader["id"].ToString());
-                result.critial = int.Parse(SqlReader["critial"].ToString());
+                result.critical = int.Parse(SqlReader["critical"].ToString());
                 result.def = int.Parse(SqlReader["def"].ToString());
                 result.speed = int.Parse(SqlReader["speed"].ToString());
                 result.darkres = int.Parse(SqlReader["darkres"].ToString());

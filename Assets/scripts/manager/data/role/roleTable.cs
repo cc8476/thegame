@@ -23,19 +23,22 @@ public class roleTable
 
         public void clearData() {
 
-            SqlCommand.CommandText = "Truncate Table role";
+            SqlCommand.CommandText = "delete from role";
             SqlReader = SqlCommand.ExecuteReader();
             SqlReader.Close();
         }
 
         public void insertByRawRoleId(int rowroleId)
         {
-            RawroleStruct r = rawroleTable.Instance.getDataById(rowroleId);
+            RawRoleStructure r = rawroleTable.Instance.getDataById(rowroleId);
             string sqlQuery = string.Format(
                 "insert into role (hp, att, critical,def,speed,darkres,lightres,quality," +
-                "name,headpic,bodypic,coin,rawRoleId,order,status,curhp) values" +
-                " (\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\",\"{14}\",\"{15}\")",
-                r.hp, r.att,r.critial,r.def,r.speed,r.darkres,r.lightres,r.quality,r.name,r.headpic,r.bodypic,r.coin,r.id,r.order,r.status,r.curhp);// table name
+                "name,headpic,bodypic,coin,rawRoleId,status,curhp) values" +
+                " (\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\",\"{14}\")",
+                r.hp, r.att,r.critical,r.def,r.speed,r.darkres,r.lightres,r.quality,r.name,r.headpic,r.bodypic,r.coin,r.id,1,r.hp);// table name
+
+
+            Debug.Log("sql:::" + sqlQuery);
 
             SqlCommand.CommandText = sqlQuery;
             SqlReader = SqlCommand.ExecuteReader();
@@ -52,11 +55,11 @@ public class roleTable
             while (SqlReader.Read())
             {
                 result.name = (string)SqlReader["name"];
-                result.headpic = (string)SqlReader["headpic"];
-                result.bodypic = (string)SqlReader["bodypic"];
+                result.headpic = "/role/" + (string)SqlReader["headpic"];
+                result.bodypic = "/role/" + (string)SqlReader["bodypic"];
 
                 result.id = int.Parse(SqlReader["id"].ToString());
-                result.critial = int.Parse(SqlReader["critial"].ToString());
+                result.critical = int.Parse(SqlReader["critical"].ToString());
                 result.def = int.Parse(SqlReader["def"].ToString());
                 result.speed = int.Parse(SqlReader["speed"].ToString());
                 result.darkres = int.Parse(SqlReader["darkres"].ToString());
@@ -66,7 +69,7 @@ public class roleTable
                 result.att = int.Parse(SqlReader["att"].ToString());
 
 
-            result.rawRoldId = int.Parse(SqlReader["rawRoldId"].ToString());
+            result.rawRoleId = int.Parse(SqlReader["rawRoleId"].ToString());
             result.order = int.Parse(SqlReader["order"].ToString());
             result.curhp = int.Parse(SqlReader["curhp"].ToString());
             result.status = int.Parse(SqlReader["status"].ToString());
@@ -92,11 +95,11 @@ public class roleTable
                 RoleStruct result = new RoleStruct();
 
                 result.name = (string)SqlReader["name"];
-                result.headpic = (string)SqlReader["headpic"];
-                result.bodypic = (string)SqlReader["bodypic"];
+                result.headpic = "/role/" + (string)SqlReader["headpic"];
+                result.bodypic = "/role/" + (string)SqlReader["bodypic"];
 
                 result.id = int.Parse(SqlReader["id"].ToString());
-                result.critial = int.Parse(SqlReader["critial"].ToString());
+                result.critical = int.Parse(SqlReader["critical"].ToString());
                 result.def = int.Parse(SqlReader["def"].ToString());
                 result.speed = int.Parse(SqlReader["speed"].ToString());
                 result.darkres = int.Parse(SqlReader["darkres"].ToString());
@@ -105,7 +108,7 @@ public class roleTable
                 result.coin = int.Parse(SqlReader["coin"].ToString());
                 result.att = int.Parse(SqlReader["att"].ToString());
 
-                result.rawRoldId = int.Parse(SqlReader["rawRoldId"].ToString());
+                result.rawRoleId = int.Parse(SqlReader["rawRoleId"].ToString());
                 result.order = int.Parse(SqlReader["order"].ToString());
                 result.curhp = int.Parse(SqlReader["curhp"].ToString());
                 result.status = int.Parse(SqlReader["status"].ToString());
