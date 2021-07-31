@@ -1,7 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/manager/data/item/itemTable.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/manager/GameManager.cs">
     <Files>
-      <File FileName="Assets/scripts/manager/data/item/itemTable.cs" Line="44" Column="1" />
+      <File FileName="Assets/scripts/scenes/fightScene.cs" Line="91" Column="10" />
+      <File FileName="Assets/scripts/manager/GameManager.cs" Line="29" Column="13" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,13 +14,11 @@
                   <Node name="manager" expanded="True">
                     <Node name="data" expanded="True">
                       <Node name="enemy" expanded="True" />
-                      <Node name="event" expanded="True" />
-                      <Node name="item" expanded="True">
-                        <Node name="itemTable.cs" selected="True" />
-                      </Node>
+                      <Node name="item" expanded="True" />
                       <Node name="rawrole" expanded="True" />
                       <Node name="role" expanded="True" />
                     </Node>
+                    <Node name="GameManager.cs" selected="True" />
                   </Node>
                   <Node name="scenes" expanded="True">
                     <Node name="panes" expanded="True" />

@@ -32,6 +32,7 @@ public class itemTable
 
         public itemStructure getDataById(int id)
         {
+            Debug.Log("iiiid"+id);
             SqlCommand.CommandText = "SELECT * FROM item WHERE id = " + id;
             SqlReader = SqlCommand.ExecuteReader();
             itemStructure result = new itemStructure();
@@ -39,10 +40,11 @@ public class itemTable
             while (SqlReader.Read())
             {
                 result.name = (string)SqlReader["name"];
-                result.type = (int)SqlReader["type"];
-                result.headpic = "/item/" + (string)SqlReader["headpic"];
+                result.headpic =  (string)SqlReader["headpic"];
+
+                result.type = int.Parse(SqlReader["type"].ToString());
                 result.id = int.Parse(SqlReader["id"].ToString());
-        }
+            }
 
             SqlReader.Close();
 
@@ -64,7 +66,7 @@ public class itemTable
 
                 result.name = (string)SqlReader["name"];
                 result.type = (int)SqlReader["type"];
-                result.headpic = "/item/" + (string)SqlReader["bodypic"];
+                result.headpic =  (string)SqlReader["bodypic"];
 
                 result.id = int.Parse(SqlReader["id"].ToString());
 

@@ -42,7 +42,7 @@ public class mapScene : MonoBehaviour
     //生成随机事件
     void getEvent() {
 
-        randomEventManager.getRandomEvent();
+        GameManager.Instance.getRandomEvent();
         GameManager.Instance.wave += 1;
     }
 

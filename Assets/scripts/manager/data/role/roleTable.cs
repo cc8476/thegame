@@ -55,8 +55,8 @@ public class roleTable
             while (SqlReader.Read())
             {
                 result.name = (string)SqlReader["name"];
-                result.headpic = "/role/" + (string)SqlReader["headpic"];
-                result.bodypic = "/role/" + (string)SqlReader["bodypic"];
+                result.headpic =  (string)SqlReader["headpic"];
+                result.bodypic = (string)SqlReader["bodypic"];
 
                 result.id = int.Parse(SqlReader["id"].ToString());
                 result.critical = int.Parse(SqlReader["critical"].ToString());
@@ -95,8 +95,8 @@ public class roleTable
                 RoleStruct result = new RoleStruct();
 
                 result.name = (string)SqlReader["name"];
-                result.headpic = "/role/" + (string)SqlReader["headpic"];
-                result.bodypic = "/role/" + (string)SqlReader["bodypic"];
+                result.headpic =(string)SqlReader["headpic"];
+                result.bodypic = (string)SqlReader["bodypic"];
 
                 result.id = int.Parse(SqlReader["id"].ToString());
                 result.critical = int.Parse(SqlReader["critical"].ToString());

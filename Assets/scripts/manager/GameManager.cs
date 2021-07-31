@@ -28,7 +28,6 @@ namespace manager
             Debug.Log("GameManager 初始化");
             itemList = new List<int>();
             enemyList = new List<int>();
-            randomEventManager.init();
             roleTable.Instance.clearData();
 
         }
@@ -61,6 +60,7 @@ namespace manager
 
         public void addItem(int itemId)
         {
+            Debug.Log("addItem::::::::::::::::::::" + itemId);
             GameManager.Instance.itemList.Add(itemId);
             SaveBin();
         }
@@ -137,6 +137,75 @@ namespace manager
         //怎么获取scene ,然后设置面板？
     }
 
+            public void getRandomEvent()
+        {
+
+            //ps:如果以后要筛选list,那么就是把list先筛出来之后，进行后续的步骤
+
+            //获取list的所有weight总和
+            //得到[0,weight中的一个数] randomValue
+            //循环列表，判断当前 总weight+当前weight >randomValue
+            //确认得到list中的某个事件
+            int allWeight = 0;//总的weight
+            List<randomStruct> list = randomEventTable.Instance.getAllData();
+            randomStruct goalItem = new randomStruct();//目标数据
+            foreach (randomStruct item in list)
+            {
+                Debug.Log("getEvent....item.weight"+item.weight);
+                allWeight +=item.weight;
+            }
+            int randomValue = Random.Range(0, allWeight);
+
+            Debug.Log("getEvent....allWeight"+allWeight);
+            Debug.Log("getEvent....randomValue"+randomValue);
+            int currentAllWeight = 0;//迭代中的总重量
+            foreach (randomStruct item in list)
+            {
+                if(currentAllWeight+item.weight>randomValue) {
+                    goalItem = item;
+                    break;
+                }
+                currentAllWeight +=item.weight;
+            }
+
+            //处理目标数据，添加到GameManager
+            Debug.Log("goalItem");
+            eventStruct showEvent=new eventStruct();
+            showEvent.name = goalItem.name;
+            showEvent.des = goalItem.des;
+            showEvent.pic = goalItem.pic;
+
+            switch (goalItem.type)
+            {
+                case randomEventType.Coin:
+                    int coin = Random.Range(goalItem.min, goalItem.max);
+                    GameManager.Instance.addCoin(coin);
+                    showEvent.coinSending = coin;
+
+
+                    break;
+                case randomEventType.Role:
+                    RoleStruct r = new RoleStruct();
+                    int count = rawroleTable.Instance.getAllData().Count;
+                    int roleId = Random.Range(0, count);
+                    roleTable.Instance.insertByRawRoleId(roleId);
+                    showEvent.roleIdSending = roleId;
+
+                    break;
+                case randomEventType.Item:
+                    int itemId = Random.Range(0, GameManager.Instance.itemList.Count);
+                    GameManager.Instance.addItem(itemId);
+
+                    showEvent.itemIdSending = itemId;
+                    break;
+
+                    
+            }
+
+                GameManager.Instance.showEventPane(showEvent);
+
+        }
+
     public void checkEvents()
     {
         //检查是否触发事件
@@ -174,7 +243,7 @@ namespace manager
                 else if (e.type ==eventStructType.Item)
                 {
                     
-                    GameManager.Instance.addItem(e.roleIdSending);
+                    GameManager.Instance.addItem(e.itemIdSending);
 
                         currentEventId = e.id;
                         showEventPane(e);

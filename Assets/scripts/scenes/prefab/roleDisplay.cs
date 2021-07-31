@@ -15,9 +15,7 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     // Start is called before the first frame update
     void Start()
     {
-
-        transform.Find("Canvas/bodyImg").GetComponent<Outline>().enabled = false;
-
+        //transform.Find("Canvas/bodyImg").GetComponent<Image>().enabled = false;
     }
 
     public void render(RoleStruct role)

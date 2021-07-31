@@ -30,8 +30,8 @@ public class enemyTable
             while (SqlReader.Read())
             {
                 result.name = (string)SqlReader["name"];
-                result.headpic = "/enemy/" + (string)SqlReader["headpic"];
-                result.bodypic = "/enemy/" + (string)SqlReader["bodypic"];
+                result.headpic =  (string)SqlReader["headpic"];
+                result.bodypic =  (string)SqlReader["bodypic"];
 
                 result.id = int.Parse(SqlReader["id"].ToString());
                 result.critical = int.Parse(SqlReader["critical"].ToString());
