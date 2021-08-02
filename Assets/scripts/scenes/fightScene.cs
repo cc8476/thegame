@@ -30,7 +30,7 @@ public class fightScene : MonoBehaviour
         {
             Vector3 v = new Vector3(canvas.transform.position.x + positionrole_x, canvas.transform.position.y, canvas.transform.position.z);
             render("roleDisplay", v, role);
-            positionrole_x += 50;
+            positionrole_x -= 150;
         }
 
 
@@ -41,14 +41,16 @@ public class fightScene : MonoBehaviour
         {
             enemyStruct enemy =  enemyTable.Instance.getDataById(enemyId);
             Vector3 v = new Vector3(canvas.transform.position.x + positionenemy_x, canvas.transform.position.y, canvas.transform.position.z);
-            positionenemy_x += 50;
+            positionenemy_x += 150;
+
+            //TODO::没展示呢
         }
 
 
         //展示唯一的人物面板
         Vector3 position = new Vector3(
-            canvas.transform.position.x+350,
-            canvas.transform.position.y -250,
+            canvas.transform.position.x+220,
+            canvas.transform.position.y -200,
             canvas.transform.position.z
         );
          rolePane = (GameObject)Instantiate(Resources.Load("rolePane"), transform.position, transform.rotation);

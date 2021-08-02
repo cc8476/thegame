@@ -110,3 +110,24 @@ public override object getDataById(int id)
             List<RawRoleStructure> list = new List<RawRoleStructure>();
             return list;
         }
+
+
+
+协程：
+StartCoroutine在unity3d的帮助中叫做协程，意思就是启动一个辅助的线程。
+在C#中直接有Thread这个线程，但是在unity中有些元素是不能操作的。这个时候可以使用协程来完成。
+使用线程的好处就是不会出现界面卡死的情况，如果有一次非常大量的运算，没用线程就会出现假死的情况。
+
+StartCoroutine(api()); //类似于js中的worker
+
+
+StartCoroutine("ReloadGame");
+
+这个方法是协程的写法，在C#中协程要定义为IEnumerator 这个类型
+IEnumerator ReloadGame()
+{			
+    // ... pause briefly
+    yield return new WaitForSeconds(2);  // 看上去只有在协程中使用
+    // ... and then reload the level.
+    Application.LoadLevel(Application.loadedLevel);
+}

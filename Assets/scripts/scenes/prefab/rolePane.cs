@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using manager;
 using UnityEngine;
 using UnityEngine.UI;
-
+//战斗场景中的人物属性面板
 public class rolePane : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -16,6 +14,8 @@ public class rolePane : MonoBehaviour
     private Text speedTxt;//
     private Text darkresTxt;//
     private Text lightresTxt;//
+
+    public List<GameObject> sonobj = new List<GameObject>();
 
 
 
@@ -34,16 +34,44 @@ public class rolePane : MonoBehaviour
 
     public void render(int roleId)
     {
+        //渲染前销毁
+        foreach (GameObject son in this.sonobj)
+        {
+            Destroy(son);
+        }
+
         //从roldId中获取role
         RoleStruct role =  roleTable.Instance.getDataById(roleId);
-        roleNameTxt.text = role.name;
-        roleHpTxt.text = role.hp.ToString();
-        attTxt.text = role.att.ToString();
-        criticalTxt.text = role.critical.ToString();
-        defTxt.text = role.def.ToString();
-        speedTxt.text = role.speed.ToString();
-        darkresTxt.text = role.darkres.ToString();
-        lightresTxt.text = role.lightres.ToString();
+        roleNameTxt.text = "角色名:"+role.name;
+        roleHpTxt.text = "hp:" + role.hp.ToString();
+        attTxt.text = "攻击:" + role.att.ToString();
+        criticalTxt.text = "暴击率:" + role.critical.ToString();
+        defTxt.text = "防御:" + role.def.ToString();
+        speedTxt.text = "速度:" + role.speed.ToString();
+        darkresTxt.text = "暗抗性:" + role.darkres.ToString();
+        lightresTxt.text = "光抗性:" + role.lightres.ToString();
+
+        string[] strArray = role.skills.ToString().Split(',');
+        for (int i = 0; i < strArray.Length; i++)
+        {
+            Vector3 position = new Vector3(
+                transform.position.x,
+                transform.position.y - 100*i-200,
+                transform.position.z
+            );
+
+            int skillId = int.Parse(strArray[i].ToString());
+            GameObject skillDisplayOb = (GameObject)Instantiate(Resources.Load("skillDisplay"), transform.position, transform.rotation);
+            skillDisplayOb.transform.parent = transform;
+            skillDisplayOb.transform.position = position;
+
+            skillDisplay sk = (skillDisplay)skillDisplayOb.GetComponent(typeof(skillDisplay));
+            sk.render(skillId);
+            this.sonobj.Add(skillDisplayOb);
+        }
+
+
+
 
     }
 

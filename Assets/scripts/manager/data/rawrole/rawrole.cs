@@ -12,6 +12,7 @@ public class RawRoleStructure
    public int lightres;//光抗性
    public int quality;//品质
    public string name;//名字
+   public string skills;//技能列表
    public string headpic { get; set; }//头像
    public string bodypic { get; set; }//身体图片
    public int coin { get; set; }//购买花费

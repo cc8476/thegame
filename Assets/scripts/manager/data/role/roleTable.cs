@@ -33,9 +33,9 @@ public class roleTable
             RawRoleStructure r = rawroleTable.Instance.getDataById(rowroleId);
             string sqlQuery = string.Format(
                 "insert into role (hp, att, critical,def,speed,darkres,lightres,quality," +
-                "name,headpic,bodypic,coin,rawRoleId,status,curhp) values" +
-                " (\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\",\"{14}\")",
-                r.hp, r.att,r.critical,r.def,r.speed,r.darkres,r.lightres,r.quality,r.name,r.headpic,r.bodypic,r.coin,r.id,1,r.hp);// table name
+                "name,headpic,bodypic,coin,rawRoleId,status,curhp,skills) values" +
+                " (\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\",\"{14}\",\"{15}\")",
+                r.hp, r.att,r.critical,r.def,r.speed,r.darkres,r.lightres,r.quality,r.name,r.headpic,r.bodypic,r.coin,r.id,1,r.hp,r.skills);// table name
 
 
             Debug.Log("sql:::" + sqlQuery);
@@ -57,6 +57,7 @@ public class roleTable
                 result.name = (string)SqlReader["name"];
                 result.headpic =  (string)SqlReader["headpic"];
                 result.bodypic = (string)SqlReader["bodypic"];
+                result.skills = (string)SqlReader["skills"];
 
                 result.id = int.Parse(SqlReader["id"].ToString());
                 result.critical = int.Parse(SqlReader["critical"].ToString());
@@ -97,6 +98,7 @@ public class roleTable
                 result.name = (string)SqlReader["name"];
                 result.headpic =(string)SqlReader["headpic"];
                 result.bodypic = (string)SqlReader["bodypic"];
+                result.skills = (string)SqlReader["skills"];
 
                 result.id = int.Parse(SqlReader["id"].ToString());
                 result.critical = int.Parse(SqlReader["critical"].ToString());
