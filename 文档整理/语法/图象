@@ -8,3 +8,22 @@ sprite =new Sprite(某个texture2D)
 Image.sprite = 某个sprite;
 
 GameObject一般附加Image组件
+
+
+渲染的3大因素：
+Material
+表面的渲染样式
+Shaders
+包含了像素颜色运算和算法的脚本
+Textures
+指的位图图像
+
+
+给Image添加shader:
+1.先写一个shader的代码
+2.再新建一个material,上述代码附加到shader属性上
+3.image选择上述material
+
+例子：
+        Material mat = Resources.Load<Material>("material/blurEffect");
+        transform.Find("Canvas/bodyImg").GetComponent<Image>().material = mat;

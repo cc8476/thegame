@@ -2,7 +2,7 @@
 public class fightRoleStruct : RawRoleStructure
 {
     public RawRoleStructure role;//存放当前的enemy或者role
-
+    public roleDisplay ui;//存放当前的enemy或者role
     public int curHP;//当前的hp
 
     public int curRound;//当前轮次

@@ -10,6 +10,7 @@ public class fightScene : MonoBehaviour
 {
     // Start is called before the first frame update
     private GameObject retreatBtn;//撤退按钮
+    private Text roundTxt;//
 
     private GameObject canvas;//画布
 
@@ -19,12 +20,16 @@ public class fightScene : MonoBehaviour
     private Dictionary<int, fightRoleStruct> enemies = new Dictionary<int, fightRoleStruct>();//敌人组
     private int currentChar =-1;//当前执行角色id
     private int currentType = -1;//当前执行角色类别 0= roles, 1= enemies
-    
+
+    private int currentBeAttackChar = -1;//当前被攻击的角色id
+
     void Start()
     {
 
         retreatBtn = GameObject.Find("Canvas/retreatBtn");
         retreatBtn.GetComponent<Button>().onClick.AddListener(retreatFunc);
+
+        roundTxt = GameObject.Find("Canvas/roundTxt").GetComponent<Text>();
 
         canvas = GameObject.Find("Canvas");
 
@@ -35,13 +40,14 @@ public class fightScene : MonoBehaviour
         foreach (RoleStruct role in roleList)
         {
             Vector3 v = new Vector3(canvas.transform.position.x + positionrole_x, canvas.transform.position.y, canvas.transform.position.z);
-            this.render("roleDisplay", v, role,0);
+            roleDisplay ui = this.render("roleDisplay", v, role,0);
             positionrole_x -= 150;
 
             fightRoleStruct f = new fightRoleStruct();
-            f.role = role;
+            f.role = role; 
             f.curHP = role.curhp;
             f.curRound = this.currentChar;
+            f.ui = ui;
             this.roles.Add(role.id, f);
         }
 
@@ -54,10 +60,11 @@ public class fightScene : MonoBehaviour
             enemyStruct enemy =  enemyTable.Instance.getDataById(enemyId);
             Vector3 v = new Vector3(canvas.transform.position.x + positionenemy_x, canvas.transform.position.y, canvas.transform.position.z);
             positionenemy_x += 150;
-            this.render("roleDisplay", v, enemy,1);
+            roleDisplay ui = this.render("roleDisplay", v, enemy,1);
 
             fightRoleStruct f = new fightRoleStruct();
             f.role = enemy;
+            f.ui = ui;
             f.curHP = enemy.curhp;
             f.curRound = this.currentChar;
             this.enemies.Add(enemy.id, f);
@@ -76,6 +83,7 @@ public class fightScene : MonoBehaviour
 
         // 添加事件侦听
         ObjectEventDispatcher.dispatcher.addEventListener(EventTypeName.HOVER_ROLE, showRolePaneHandler);
+        ObjectEventDispatcher.dispatcher.addEventListener(EventTypeName.ATTACK_ROLE, attackRolePaneHandler);
 
         this.setCurrentChar();
         
@@ -113,8 +121,33 @@ public class fightScene : MonoBehaviour
 
         this.currentChar = currentOrder;
         this.currentType = currentType;
+
+
+        renderUI();
+
+
+
     }
 
+    private void renderUI()
+    {
+
+        //开始渲染
+        roundTxt.text = "第" + this.currentRound.ToString() + "轮";
+
+        roleDisplay rd;
+        if (this.currentType == 0)
+        {
+            rd = (roleDisplay)roles[this.currentChar].ui;
+        }
+        else
+        {
+            rd = (roleDisplay)enemies[this.currentChar].ui;
+        }
+
+        rd.ready();
+    }
+ 
     private void showRolePaneHandler(UEvent uEvent)
     {
         int[] data = (int[])uEvent.eventParams;
@@ -123,7 +156,39 @@ public class fightScene : MonoBehaviour
         rolepane.render(data[0],data[1]);
     }
 
-    private void render(string type, Vector3 v, RoleStruct role,int chartype )
+    //当前被击中对象
+    private void attackRolePaneHandler(UEvent uEvent)
+    {
+        var target = (roleDisplay)uEvent.target;
+        var collections = (currentType == 1) ? roles : enemies;
+
+        foreach (var item in collections)
+        {
+            if (item.Value.ui == target)
+            {
+                
+                Debug.Log("当前被攻击的是1:" + item.Key);
+                Debug.Log("当前被攻击的是2:" + item.Value);
+                this.currentBeAttackChar = item.Key;
+                fightRoleStruct attackTarget = item.Value;
+                attackTarget.ui.beAttack();
+
+
+
+                break;
+            }
+
+
+        }
+
+
+
+
+    }
+
+    
+
+    private roleDisplay render(string type, Vector3 v, RoleStruct role,int chartype )
     {        
         GameObject instance = (GameObject)Instantiate(Resources.Load(type), transform.position, canvas.transform.rotation);
         instance.transform.parent = canvas.transform;
@@ -131,6 +196,7 @@ public class fightScene : MonoBehaviour
 
         roleDisplay pane = (roleDisplay)instance.GetComponent(typeof(roleDisplay));
         pane.render(role, chartype);
+        return pane;
     }
 
 

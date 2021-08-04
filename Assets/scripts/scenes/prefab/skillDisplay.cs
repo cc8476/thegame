@@ -13,6 +13,8 @@ public class skillDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public int skillId;
 
+    private int status;//0=未选中 1=选中
+
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +30,7 @@ public class skillDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         transform.Find("Canvas/desTxt").GetComponent<Text>().text = "描述:"+sk.des.ToString();
 
         transform.Find("Canvas/icon").GetComponent<Image>().sprite = ImageTool.LoadSpriteByIO(Application.streamingAssetsPath + sk.icon);
-
+        transform.Find("Canvas/icon").GetComponent<Image>().GetComponent<Outline>().enabled = false;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -49,6 +51,7 @@ public class skillDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("click");
+        ObjectEventDispatcher.dispatcher.dispatchEvent(new UEvent(EventTypeName.SELECT_SKILL, eventData), this);
     }
 
 
@@ -58,6 +61,30 @@ public class skillDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         //transform.Find("Canvas/bodyImg").GetComponent<Outline>().enabled = show;
     }
 
+    public void select()
+    {
+        this.status = 1;
+        this.renderStatus();
+    }
+    public void unselect()
+    {
+        this.status = 0;
+        this.renderStatus();
+    }
+
+    public void renderStatus()
+    {
+        switch (this.status)
+        {
+            case 1:
+                transform.Find("Canvas/icon").GetComponent<Image>().GetComponent<Outline>().enabled = true;
+                break;
+            case 0:
+                transform.Find("Canvas/icon").GetComponent<Image>().GetComponent<Outline>().enabled = false;
+                break;
+        }
+    }
+        
 
     // Update is called once per frame
     void Update()

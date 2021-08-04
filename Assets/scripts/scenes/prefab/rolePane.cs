@@ -39,6 +39,7 @@ public class rolePane : MonoBehaviour
         {
             Destroy(son);
         }
+        this.sonobj.Clear();
 
         //从roldId中获取role
 
@@ -88,11 +89,30 @@ public class rolePane : MonoBehaviour
 
             skillDisplay sk = (skillDisplay)skillDisplayOb.GetComponent(typeof(skillDisplay));
             sk.render(skillId);
+            if(i==0)
+            {
+                sk.select();
+            }
             this.sonobj.Add(skillDisplayOb);
+
+            ObjectEventDispatcher.dispatcher.addEventListener(EventTypeName.SELECT_SKILL, selectskillHandler);
         }
 
 
 
+
+    }
+
+    void selectskillHandler(UEvent uEvent)
+    {
+        foreach (GameObject item in this.sonobj)
+        {
+            skillDisplay othersk = (skillDisplay)item.GetComponent(typeof(skillDisplay));
+            othersk.unselect();
+        }
+
+        var sk = (skillDisplay)uEvent.target;
+        sk.select();
 
     }
 

@@ -1,40 +1,21 @@
 ﻿<Properties StartupConfiguration="{5EFAC6E5-EB73-81F6-6576-EC7B7F487346}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/scenes/prefab/rolePane.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/scenes/prefab/roleDisplay.cs">
     <Files>
-      <File FileName="Assets/scripts/scenes/fightScene.cs" Line="123" Column="21" />
-      <File FileName="Assets/scripts/scenes/prefab/rolePane.cs" Line="70" Column="1" />
-      <File FileName="Assets/scripts/scenes/prefab/roleDisplay.cs" Line="41" Column="52" />
-      <File FileName="Assets/scripts/manager/data/enemy/enemyTable.cs" Line="77" Column="16" />
-      <File FileName="Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/ExecuteEvents.cs" Line="264" Column="1" />
+      <File FileName="Assets/scripts/scenes/fightScene.cs" Line="173" Column="59" />
+      <File FileName="Assets/Resources/NewImageEffectShader.shader" Line="18" Column="36" />
+      <File FileName="Assets/scripts/scenes/prefab/roleDisplay.cs" Line="49" Column="79" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="thegame" expanded="True">
-            <Node name="Assets" expanded="True">
-              <Node name="scripts" expanded="True">
-                <Node name="manager" expanded="True">
-                  <Node name="data" expanded="True">
-                    <Node name="enemy" expanded="True" />
-                    <Node name="rawrole" expanded="True" />
-                    <Node name="role" expanded="True" />
-                  </Node>
-                </Node>
-                <Node name="scenes" expanded="True">
-                  <Node name="prefab" expanded="True">
-                    <Node name="rolePane.cs" selected="True" />
-                  </Node>
-                </Node>
-              </Node>
-            </Node>
-          </Node>
+          <Node name="thegame" expanded="True" selected="True" />
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="0c9614f9-328c-4a01-a134-5962e8d7c6eb" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="5504bc74-2844-4052-9c6e-82fab2abba10" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

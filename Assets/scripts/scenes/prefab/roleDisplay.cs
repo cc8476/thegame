@@ -1,3 +1,4 @@
+using System;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,14 +10,21 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public Text nameTxt;//姓名显示ui
     public Text hpTxt;//血量显示ui
+    public Image arrow;
 
     public int roldId;
     public int chartype;
 
+    public int status;//1= 当前是攻击者
+
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-        //transform.Find("Canvas/bodyImg").GetComponent<Image>().enabled = false;
+        arrow = transform.Find("Canvas/arrow").GetComponent<Image>();
+        arrow.color = new Color(255, 255, 255, 0);
+        transform.Find("Canvas/bodyImg").GetComponent<Outline>().enabled = false;
+
+
     }
 
     public void render(RoleStruct role, int chartype)
@@ -28,8 +36,17 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         transform.Find("Canvas/hpTxt").GetComponent<Text>().text = role.hp.ToString();
         transform.Find("Canvas/bodyImg").GetComponent<Image>().sprite = ImageTool.LoadSpriteByIO(Application.streamingAssetsPath + role.bodypic);
 
+
+
         roldId = role.id;//
         this.chartype = chartype;//
+    }
+
+    //被攻击，找一个更好看的shader
+    public void beAttack()
+    {
+        Material mat = Resources.Load<Material>("material/blurEffect");
+        transform.Find("Canvas/bodyImg").GetComponent<Image>().material = mat;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -59,12 +76,12 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("click");
+        ObjectEventDispatcher.dispatcher.dispatchEvent(new UEvent(EventTypeName.ATTACK_ROLE), this);
     }
 
 
     private void setOutline(bool show)
     {
-
         transform.Find("Canvas/bodyImg").GetComponent<Outline>().enabled = show;
     }
 
@@ -72,5 +89,23 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     // Update is called once per frame
     void Update()
     {
+    }
+
+    internal void ready()
+    {
+        this.status = 1;
+        this.renderStatus();
+    }
+
+    internal void renderStatus()
+    {
+        switch (this.status)
+        {
+            case 1:
+                arrow.color = new Color(255, 255, 255, 255);
+                setOutline(true);
+                break;
+        }
+
     }
 }
