@@ -32,7 +32,7 @@ public class rolePane : MonoBehaviour
         lightresTxt = GameObject.Find("Canvas/lightresTxt").GetComponent<Text>();
     }
 
-    public void render(int roleId)
+    public void render(int roleId,int roldType)
     {
         //渲染前销毁
         foreach (GameObject son in this.sonobj)
@@ -41,17 +41,38 @@ public class rolePane : MonoBehaviour
         }
 
         //从roldId中获取role
-        RoleStruct role =  roleTable.Instance.getDataById(roleId);
-        roleNameTxt.text = "角色名:"+role.name;
-        roleHpTxt.text = "hp:" + role.hp.ToString();
-        attTxt.text = "攻击:" + role.att.ToString();
-        criticalTxt.text = "暴击率:" + role.critical.ToString();
-        defTxt.text = "防御:" + role.def.ToString();
-        speedTxt.text = "速度:" + role.speed.ToString();
-        darkresTxt.text = "暗抗性:" + role.darkres.ToString();
-        lightresTxt.text = "光抗性:" + role.lightres.ToString();
 
-        string[] strArray = role.skills.ToString().Split(',');
+        string skill = "";
+        if (roldType==0)
+        {
+            RoleStruct role = roleTable.Instance.getDataById(roleId);
+            roleNameTxt.text = "角色名:" + role.name;
+            roleHpTxt.text = "hp:" + role.hp.ToString();
+            attTxt.text = "攻击:" + role.att.ToString();
+            criticalTxt.text = "暴击率:" + role.critical.ToString();
+            defTxt.text = "防御:" + role.def.ToString();
+            speedTxt.text = "速度:" + role.speed.ToString();
+            darkresTxt.text = "暗抗性:" + role.darkres.ToString();
+            lightresTxt.text = "光抗性:" + role.lightres.ToString();
+            skill = role.skills.ToString();
+        }
+        else
+        {
+            enemyStruct role = enemyTable.Instance.getDataById(roleId);
+            roleNameTxt.text = "角色名:" + role.name;
+            roleHpTxt.text = "hp:" + role.hp.ToString();
+            attTxt.text = "攻击:" + role.att.ToString();
+            criticalTxt.text = "暴击率:" + role.critical.ToString();
+            defTxt.text = "防御:" + role.def.ToString();
+            speedTxt.text = "速度:" + role.speed.ToString();
+            darkresTxt.text = "暗抗性:" + role.darkres.ToString();
+            lightresTxt.text = "光抗性:" + role.lightres.ToString();
+            skill = role.skills.ToString();
+        }
+
+
+
+        string[] strArray = skill.Split(',');
         for (int i = 0; i < strArray.Length; i++)
         {
             Vector3 position = new Vector3(

@@ -32,8 +32,10 @@ public class enemyTable
                 result.name = (string)SqlReader["name"];
                 result.headpic =  (string)SqlReader["headpic"];
                 result.bodypic =  (string)SqlReader["bodypic"];
+                result.skills = (string)SqlReader["skills"];
 
-                result.id = int.Parse(SqlReader["id"].ToString());
+
+            result.id = int.Parse(SqlReader["id"].ToString());
                 result.critical = int.Parse(SqlReader["critical"].ToString());
                 result.def = int.Parse(SqlReader["def"].ToString());
                 result.speed = int.Parse(SqlReader["speed"].ToString());
@@ -42,11 +44,13 @@ public class enemyTable
                 result.quality = int.Parse(SqlReader["quality"].ToString());
                 result.coin = int.Parse(SqlReader["coin"].ToString());
                 result.att = int.Parse(SqlReader["att"].ToString());
+            
 
                 result.turnMin = int.Parse(SqlReader["turnMin"].ToString());
                 result.turnMax = int.Parse(SqlReader["turnMax"].ToString());
+            
 
-            }
+        }
 
             SqlReader.Close();
 
@@ -70,6 +74,7 @@ public class enemyTable
                 result.name = (string)SqlReader["name"];
                 result.headpic = (string)SqlReader["headpic"];
                 result.bodypic = (string)SqlReader["bodypic"];
+                result.skills = (string)SqlReader["skills"];    
 
                 result.id = int.Parse(SqlReader["id"].ToString());
                 result.critical = int.Parse(SqlReader["critical"].ToString());

@@ -14,9 +14,15 @@ public class fightScene : MonoBehaviour
     private GameObject canvas;//画布
 
     private GameObject rolePane;// 人物面板
-
+    private int currentRound =1 ;//当前轮次
+    private Dictionary<int, fightRoleStruct> roles = new Dictionary<int, fightRoleStruct>();//我方组 int = id
+    private Dictionary<int, fightRoleStruct> enemies = new Dictionary<int, fightRoleStruct>();//敌人组
+    private int currentChar =-1;//当前执行角色id
+    private int currentType = -1;//当前执行角色类别 0= roles, 1= enemies
+    
     void Start()
     {
+
         retreatBtn = GameObject.Find("Canvas/retreatBtn");
         retreatBtn.GetComponent<Button>().onClick.AddListener(retreatFunc);
 
@@ -29,8 +35,14 @@ public class fightScene : MonoBehaviour
         foreach (RoleStruct role in roleList)
         {
             Vector3 v = new Vector3(canvas.transform.position.x + positionrole_x, canvas.transform.position.y, canvas.transform.position.z);
-            render("roleDisplay", v, role);
+            this.render("roleDisplay", v, role,0);
             positionrole_x -= 150;
+
+            fightRoleStruct f = new fightRoleStruct();
+            f.role = role;
+            f.curHP = role.curhp;
+            f.curRound = this.currentChar;
+            this.roles.Add(role.id, f);
         }
 
 
@@ -42,8 +54,13 @@ public class fightScene : MonoBehaviour
             enemyStruct enemy =  enemyTable.Instance.getDataById(enemyId);
             Vector3 v = new Vector3(canvas.transform.position.x + positionenemy_x, canvas.transform.position.y, canvas.transform.position.z);
             positionenemy_x += 150;
+            this.render("roleDisplay", v, enemy,1);
 
-            //TODO::没展示呢
+            fightRoleStruct f = new fightRoleStruct();
+            f.role = enemy;
+            f.curHP = enemy.curhp;
+            f.curRound = this.currentChar;
+            this.enemies.Add(enemy.id, f);
         }
 
 
@@ -57,27 +74,63 @@ public class fightScene : MonoBehaviour
         rolePane.transform.parent = canvas.transform;
         rolePane.transform.position = position;
 
-
-
         // 添加事件侦听
         ObjectEventDispatcher.dispatcher.addEventListener(EventTypeName.HOVER_ROLE, showRolePaneHandler);
+
+        this.setCurrentChar();
+        
+
+
+    }
+
+    //根据roles和enemies，得到当前的轮次
+    private void setCurrentChar()
+    {
+        int currentSpeed = -1;//当前最高speed
+        int currentOrder = -1;//当前最高speed的id
+        int currentType = -1;//0=role ,1= enemy
+        foreach (KeyValuePair< int, fightRoleStruct > single in roles)
+        {
+            if(!single.Value.acted && single.Value.speed>= currentSpeed)
+            {
+                currentSpeed = single.Value.speed;
+                currentOrder = single.Key;
+                currentType = 0;
+            }
+        }
+
+        foreach (KeyValuePair<int, fightRoleStruct> single in enemies)
+        {
+            if (!single.Value.acted && single.Value.speed >= currentSpeed)
+            {
+                currentSpeed = single.Value.speed;
+                currentOrder = single.Key;
+                currentType = 1;
+            }
+        }
+
+        Debug.Log("当前出列的是:"+ currentOrder+ ",当前出列类别是:" + currentType);
+
+        this.currentChar = currentOrder;
+        this.currentType = currentType;
     }
 
     private void showRolePaneHandler(UEvent uEvent)
     {
-        int roleId = (int)uEvent.eventParams;
+        int[] data = (int[])uEvent.eventParams;
+        
         rolePane rolepane = (rolePane)rolePane.GetComponent(typeof(rolePane));
-        rolepane.render(roleId);
+        rolepane.render(data[0],data[1]);
     }
 
-    private void render(string type, Vector3 v, RoleStruct role )
+    private void render(string type, Vector3 v, RoleStruct role,int chartype )
     {        
         GameObject instance = (GameObject)Instantiate(Resources.Load(type), transform.position, canvas.transform.rotation);
         instance.transform.parent = canvas.transform;
         instance.transform.position = v;
 
         roleDisplay pane = (roleDisplay)instance.GetComponent(typeof(roleDisplay));
-        pane.render(role);
+        pane.render(role, chartype);
     }
 
 

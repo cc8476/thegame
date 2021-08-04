@@ -11,16 +11,17 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public Text hpTxt;//血量显示ui
 
     public int roldId;
+    public int chartype;
 
-    
     // Start is called before the first frame update
     void Start()
     {
         //transform.Find("Canvas/bodyImg").GetComponent<Image>().enabled = false;
     }
 
-    public void render(RoleStruct role)
+    public void render(RoleStruct role, int chartype)
     {
+        //chartype =0  role , =1 enemy
         Debug.Log("zzzzzzzz" + JsonUtility.ToJson(role));
 
         transform.Find("Canvas/nameTxt").GetComponent<Text>().text = role.name;
@@ -28,6 +29,7 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         transform.Find("Canvas/bodyImg").GetComponent<Image>().sprite = ImageTool.LoadSpriteByIO(Application.streamingAssetsPath + role.bodypic);
 
         roldId = role.id;//
+        this.chartype = chartype;//
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -36,7 +38,8 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         setOutline(true);
 
         // 触发事件
-        ObjectEventDispatcher.dispatcher.dispatchEvent(new UEvent(EventTypeName.HOVER_ROLE, roldId), this);
+        int[] data = { this.roldId, this.chartype };
+        ObjectEventDispatcher.dispatcher.dispatchEvent(new UEvent(EventTypeName.HOVER_ROLE, data), this);
 
 
 
