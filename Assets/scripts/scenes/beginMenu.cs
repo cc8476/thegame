@@ -32,14 +32,17 @@ public class beginMenu : MonoBehaviour
         quitBtn.GetComponent<Button>().onClick.AddListener(quitFunc);
     }
 
-    void playFunc() {
+    void playFunc()
+    {
         GameManager.Instance.init();
         SceneManager.LoadScene(Scene.introGame);//sceneName
     }
-    void quitFunc() {
-        
+    void quitFunc()
+    {
+
     }
-    void continueFunc() {
+    void continueFunc()
+    {
         GameManager.Instance.init();
         GameManager.Instance.ReadBin();
         SceneManager.LoadScene(Scene.town);//sceneName
