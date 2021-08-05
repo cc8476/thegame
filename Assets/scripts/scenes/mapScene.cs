@@ -13,7 +13,7 @@ public class mapScene : MonoBehaviour
     private Button bossBtn;//boss按钮
     private Button enemyBtn;//敌人按钮
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,7 +40,8 @@ public class mapScene : MonoBehaviour
     }
 
     //生成随机事件
-    void getEvent() {
+    void getEvent()
+    {
 
         GameManager.Instance.getRandomEvent();
         GameManager.Instance.wave += 1;
@@ -51,7 +52,7 @@ public class mapScene : MonoBehaviour
     void Update()
     {
         currentTurn.text = "turn:" + GameManager.Instance.turn.ToString();
-        currentWave.text = "wave:" + GameManager.Instance.wave.ToString()+"/"+Rule.maxWave;
+        currentWave.text = "wave:" + GameManager.Instance.wave.ToString() + "/" + Rule.maxWave;
 
 
         eventBtn.gameObject.SetActive(false);
@@ -59,12 +60,14 @@ public class mapScene : MonoBehaviour
         enemyBtn.gameObject.SetActive(false);
 
         //可以显示event和enmey
-        if(GameManager.Instance.wave<Rule.maxWave) {
-        eventBtn.gameObject.SetActive(true);
-        enemyBtn.gameObject.SetActive(true);
+        if (GameManager.Instance.wave < Rule.maxWave)
+        {
+            eventBtn.gameObject.SetActive(true);
+            enemyBtn.gameObject.SetActive(true);
         }
         //只能显示boss
-        else {
+        else
+        {
             bossBtn.gameObject.SetActive(true);
         }
     }

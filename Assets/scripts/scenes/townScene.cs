@@ -24,7 +24,7 @@ public class townScene : MonoBehaviour
         turnTxt = GameObject.Find("Canvas/turnTxt").GetComponent<Text>();
         waveTxt = GameObject.Find("Canvas/waveTxt").GetComponent<Text>();
 
-        Debug.Log("town scene"+coinTxt);
+        Debug.Log("town scene" + coinTxt);
 
     }
 
@@ -38,9 +38,9 @@ public class townScene : MonoBehaviour
     void Update()
     {
         //TODO::数据的更新，除了依赖update()外，还能监听GameManager吗？
-        coinTxt.text = "coin:"+GameManager.Instance.coin.ToString();
-        roleTxt.text = "role:"+roleTable.Instance.getAllData().Count.ToString();
-        waveTxt.text = "wave:"+GameManager.Instance.turn.ToString();
-        turnTxt.text = "turn:"+GameManager.Instance.wave.ToString();
+        coinTxt.text = "coin:" + GameManager.Instance.coin.ToString();
+        roleTxt.text = "role:" + roleTable.Instance.getAllData().Count.ToString();
+        waveTxt.text = "wave:" + GameManager.Instance.turn.ToString();
+        turnTxt.text = "turn:" + GameManager.Instance.wave.ToString();
     }
 }

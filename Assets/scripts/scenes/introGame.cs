@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class introGame : MonoBehaviour
 {
-   
+
     private Button nextBtn;//下一步按钮
     private Button skipBtn;//下一步按钮
     private GameObject pane1;//介绍1
@@ -13,7 +13,7 @@ public class introGame : MonoBehaviour
     private GameObject pane3;//介绍3
 
 
-    private int currentStep =1;
+    private int currentStep = 1;
     void Start()
     {
         nextBtn = GameObject.Find("Canvas/nextBtn").GetComponent<Button>();
@@ -29,20 +29,23 @@ public class introGame : MonoBehaviour
         renderStep();
     }
 
-    void nextStep() {
-        currentStep+=1;
-        Debug.Log("You selected currentStep:"+currentStep);
+    void nextStep()
+    {
+        currentStep += 1;
+        Debug.Log("You selected currentStep:" + currentStep);
         renderStep();
     }
 
-    void skipStep() {
-        currentStep=4;
-        Debug.Log("You selected currentStep:"+currentStep);
+    void skipStep()
+    {
+        currentStep = 4;
+        Debug.Log("You selected currentStep:" + currentStep);
         renderStep();
     }
 
 
-    void renderStep() {
+    void renderStep()
+    {
         pane1.SetActive(false);
         pane2.SetActive(false);
         pane3.SetActive(false);
@@ -51,16 +54,16 @@ public class introGame : MonoBehaviour
         {
             case 1:
                 pane1.SetActive(true);
-            break;
+                break;
             case 2:
                 pane2.SetActive(true);
-            break;
+                break;
             case 3:
                 pane3.SetActive(true);
-            break;
+                break;
             case 4:
                 SceneManager.LoadScene(Scene.town);//sceneName
-            break;
+                break;
         }
     }
 

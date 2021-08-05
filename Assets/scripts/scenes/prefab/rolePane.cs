@@ -32,7 +32,7 @@ public class rolePane : MonoBehaviour
         lightresTxt = GameObject.Find("Canvas/lightresTxt").GetComponent<Text>();
     }
 
-    public void render(int roleId,int roldType)
+    public void render(int roleId, int roldType)
     {
         //渲染前销毁
         foreach (GameObject son in this.sonobj)
@@ -44,7 +44,7 @@ public class rolePane : MonoBehaviour
         //从roldId中获取role
 
         string skill = "";
-        if (roldType==0)
+        if (roldType == 0)
         {
             RoleStruct role = roleTable.Instance.getDataById(roleId);
             roleNameTxt.text = "角色名:" + role.name;
@@ -78,7 +78,7 @@ public class rolePane : MonoBehaviour
         {
             Vector3 position = new Vector3(
                 transform.position.x,
-                transform.position.y - 100*i-200,
+                transform.position.y - 100 * i - 200,
                 transform.position.z
             );
 
@@ -89,7 +89,7 @@ public class rolePane : MonoBehaviour
 
             skillDisplay sk = (skillDisplay)skillDisplayOb.GetComponent(typeof(skillDisplay));
             sk.render(skillId);
-            if(i==0)
+            if (i == 0)
             {
                 sk.select();
             }
@@ -119,6 +119,6 @@ public class rolePane : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

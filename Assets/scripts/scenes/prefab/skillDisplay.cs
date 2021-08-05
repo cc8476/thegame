@@ -26,8 +26,8 @@ public class skillDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         this.skillId = skillId;
         skillStruct sk = skillTable.Instance.getDataById(skillId);
         transform.Find("Canvas/nameTxt").GetComponent<Text>().text = sk.name.ToString();
-        transform.Find("Canvas/attTxt").GetComponent<Text>().text = "攻击:"+sk.att.ToString();
-        transform.Find("Canvas/desTxt").GetComponent<Text>().text = "描述:"+sk.des.ToString();
+        transform.Find("Canvas/attTxt").GetComponent<Text>().text = "攻击:" + sk.att.ToString();
+        transform.Find("Canvas/desTxt").GetComponent<Text>().text = "描述:" + sk.des.ToString();
 
         transform.Find("Canvas/icon").GetComponent<Image>().sprite = ImageTool.LoadSpriteByIO(Application.streamingAssetsPath + sk.icon);
         transform.Find("Canvas/icon").GetComponent<Image>().GetComponent<Outline>().enabled = false;
@@ -84,7 +84,7 @@ public class skillDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 break;
         }
     }
-        
+
 
     // Update is called once per frame
     void Update()

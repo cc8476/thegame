@@ -14,9 +14,9 @@ namespace manager
         static GameManager _instance;
         public int coin = 0;//金币
         public int level = 1;//等级
-        public int turn =-1;//当前轮次
-        public int wave =-1;//当前波次
-        public  List<int> itemList;//道具列表
+        public int turn = -1;//当前轮次
+        public int wave = -1;//当前波次
+        public List<int> itemList;//道具列表
         public List<int> enemyList;//当前波次的敌人列表
         public eventStruct currentEvent;//当前的事件奖励
         public int currentEventId;//当前的事件奖励Id (奖励过的不再查询)
@@ -34,12 +34,13 @@ namespace manager
 
         public void addCoin(int coin)
         {
-            Debug.Log("游戏获得了coin: "+coin);
-            GameManager.Instance.coin +=coin;
+            Debug.Log("游戏获得了coin: " + coin);
+            GameManager.Instance.coin += coin;
             SaveBin();
         }
 
-        public void setCurrentEnemyList() {
+        public void setCurrentEnemyList()
+        {
             int currentTurn = GameManager.Instance.turn;
             int count = 0;
 
@@ -47,7 +48,7 @@ namespace manager
             foreach (enemyStruct item in eList)
             {
                 if (count == 3) break;
-                if(item.turnMin<= currentTurn  && item.turnMax >= currentTurn)
+                if (item.turnMin <= currentTurn && item.turnMax >= currentTurn)
                 {
                     GameManager.Instance.enemyList.Add(item.id);
                     count++;
@@ -64,11 +65,12 @@ namespace manager
             GameManager.Instance.itemList.Add(itemId);
             SaveBin();
         }
-        
+
 
         //保存存档
-        public void SaveBin() {
-            string path = Application.dataPath + "/save.bin"; 
+        public void SaveBin()
+        {
+            string path = Application.dataPath + "/save.bin";
             FileStream file = null;
             BinaryFormatter bf = new BinaryFormatter();
             file = File.Open(path, FileMode.Create);
@@ -86,25 +88,26 @@ namespace manager
             file.Close();
         }
         //读取存档
-        public void ReadBin() {
-            string path = Application.dataPath + "/save.bin"; 
-            SaveData sd ;
+        public void ReadBin()
+        {
+            string path = Application.dataPath + "/save.bin";
+            SaveData sd;
             FileStream file = null;
             BinaryFormatter bf = new BinaryFormatter();
             file = File.Open(path, FileMode.Open);
             sd = (SaveData)bf.Deserialize(file);
-            Debug.Log("读取日志 金币  "+sd.coin);
-            Debug.Log("读取日志 等级  "+sd.level);
-            Debug.Log("读取日志 turn  "+sd.turn);
-            Debug.Log("读取日志 wave  "+sd.wave);
+            Debug.Log("读取日志 金币  " + sd.coin);
+            Debug.Log("读取日志 等级  " + sd.level);
+            Debug.Log("读取日志 turn  " + sd.turn);
+            Debug.Log("读取日志 wave  " + sd.wave);
 
-             GameManager.Instance.coin = sd.coin;
-             GameManager.Instance.level = sd.level;
-             GameManager.Instance.turn = sd.turn ;
-             GameManager.Instance.wave = sd.wave;
-             GameManager.Instance.itemList = sd.itemList;
-             GameManager.Instance.enemyList = sd.enemyList;
-             GameManager.Instance.currentEventId = sd.currentEventId;
+            GameManager.Instance.coin = sd.coin;
+            GameManager.Instance.level = sd.level;
+            GameManager.Instance.turn = sd.turn;
+            GameManager.Instance.wave = sd.wave;
+            GameManager.Instance.itemList = sd.itemList;
+            GameManager.Instance.enemyList = sd.enemyList;
+            GameManager.Instance.currentEventId = sd.currentEventId;
 
 
 
@@ -129,15 +132,17 @@ namespace manager
 
 
 
-    public void showEventPane(eventStruct e) {
-        currentEvent = e;
-        if (SceneManager.GetSceneByName(Scene.EventPane).isLoaded == false) {
-            SceneManager.LoadScene(Scene.EventPane, LoadSceneMode.Additive);
+        public void showEventPane(eventStruct e)
+        {
+            currentEvent = e;
+            if (SceneManager.GetSceneByName(Scene.EventPane).isLoaded == false)
+            {
+                SceneManager.LoadScene(Scene.EventPane, LoadSceneMode.Additive);
+            }
+            //怎么获取scene ,然后设置面板？
         }
-        //怎么获取scene ,然后设置面板？
-    }
 
-            public void getRandomEvent()
+        public void getRandomEvent()
         {
 
             //ps:如果以后要筛选list,那么就是把list先筛出来之后，进行后续的步骤
@@ -151,26 +156,27 @@ namespace manager
             randomStruct goalItem = new randomStruct();//目标数据
             foreach (randomStruct item in list)
             {
-                Debug.Log("getEvent....item.weight"+item.weight);
-                allWeight +=item.weight;
+                Debug.Log("getEvent....item.weight" + item.weight);
+                allWeight += item.weight;
             }
             int randomValue = Random.Range(0, allWeight);
 
-            Debug.Log("getEvent....allWeight"+allWeight);
-            Debug.Log("getEvent....randomValue"+randomValue);
+            Debug.Log("getEvent....allWeight" + allWeight);
+            Debug.Log("getEvent....randomValue" + randomValue);
             int currentAllWeight = 0;//迭代中的总重量
             foreach (randomStruct item in list)
             {
-                if(currentAllWeight+item.weight>randomValue) {
+                if (currentAllWeight + item.weight > randomValue)
+                {
                     goalItem = item;
                     break;
                 }
-                currentAllWeight +=item.weight;
+                currentAllWeight += item.weight;
             }
 
             //处理目标数据，添加到GameManager
             Debug.Log("goalItem");
-            eventStruct showEvent=new eventStruct();
+            eventStruct showEvent = new eventStruct();
             showEvent.name = goalItem.name;
             showEvent.des = goalItem.des;
             showEvent.pic = goalItem.pic;
@@ -199,78 +205,78 @@ namespace manager
                     showEvent.itemIdSending = itemId;
                     break;
 
-                    
+
             }
 
-                GameManager.Instance.showEventPane(showEvent);
+            GameManager.Instance.showEventPane(showEvent);
 
         }
 
-    public void checkEvents()
-    {
-        //检查是否触发事件
-        List<eventStruct> list =eventTable.Instance.getAllData();
-        foreach (eventStruct e in list)
+        public void checkEvents()
         {
-            //轮次和波次是否触发事件 ,并且id需要大于记录的历史id
-            if (e.turn == GameManager.Instance.turn && e.wave == GameManager.Instance.wave
-                && e.id > this.currentEventId
-                    )
+            //检查是否触发事件
+            List<eventStruct> list = eventTable.Instance.getAllData();
+            foreach (eventStruct e in list)
             {
-
-                //增加角色
-                if (e.type == eventStructType.Role)
+                //轮次和波次是否触发事件 ,并且id需要大于记录的历史id
+                if (e.turn == GameManager.Instance.turn && e.wave == GameManager.Instance.wave
+                    && e.id > this.currentEventId
+                        )
                 {
-                    roleTable.Instance.insertByRawRoleId(e.roleIdSending);
 
-                    this.currentEventId = e.id;
-                    showEventPane(e);
-                    return;
-
-
-                }
-                //增加金币
-                else if (e.type ==eventStructType.Coin)
-                {
-                    GameManager.Instance.addCoin(e.coinSending);
-
-                        currentEventId = e.id;
-                        showEventPane(e);
-                    return;
-                }
-
-                //增加道具
-                else if (e.type ==eventStructType.Item)
-                {
-                    
-                    GameManager.Instance.addItem(e.itemIdSending);
-
-                        currentEventId = e.id;
-                        showEventPane(e);
-                    return;
-                }
-
-                else if (e.type ==eventStructType.MissionTips)
-                {
-                        currentEventId = e.id;
-                        showEventPane(e);
-
-                    //初始化游戏后，turn和wave要从-1，-1改成0，0
-                    if (GameManager.Instance.wave == -1 && GameManager.Instance.turn == -1)
+                    //增加角色
+                    if (e.type == eventStructType.Role)
                     {
-                        //TODO:: 应该每次修改GameManager的属性，自动调用SaveBin();
-                        GameManager.Instance.turn = 0;
-                        GameManager.Instance.wave = 0;
-                        GameManager.Instance.SaveBin();
+                        roleTable.Instance.insertByRawRoleId(e.roleIdSending);
 
-                        Debug.Log("初始化游戏后，turn和wave要从-1，-1改成0，0");
+                        this.currentEventId = e.id;
+                        showEventPane(e);
+                        return;
+
+
                     }
-                    return;
-                }
+                    //增加金币
+                    else if (e.type == eventStructType.Coin)
+                    {
+                        GameManager.Instance.addCoin(e.coinSending);
 
+                        currentEventId = e.id;
+                        showEventPane(e);
+                        return;
+                    }
+
+                    //增加道具
+                    else if (e.type == eventStructType.Item)
+                    {
+
+                        GameManager.Instance.addItem(e.itemIdSending);
+
+                        currentEventId = e.id;
+                        showEventPane(e);
+                        return;
+                    }
+
+                    else if (e.type == eventStructType.MissionTips)
+                    {
+                        currentEventId = e.id;
+                        showEventPane(e);
+
+                        //初始化游戏后，turn和wave要从-1，-1改成0，0
+                        if (GameManager.Instance.wave == -1 && GameManager.Instance.turn == -1)
+                        {
+                            //TODO:: 应该每次修改GameManager的属性，自动调用SaveBin();
+                            GameManager.Instance.turn = 0;
+                            GameManager.Instance.wave = 0;
+                            GameManager.Instance.SaveBin();
+
+                            Debug.Log("初始化游戏后，turn和wave要从-1，-1改成0，0");
+                        }
+                        return;
+                    }
+
+                }
             }
         }
-    }
 
 
         static public GameManager Instance
@@ -285,7 +291,7 @@ namespace manager
                     if (_instance == null)  // 如果没有找到
                     {
                         GameObject go = new GameObject("_GameManager"); // 创建一个新的GameObject
-                        
+
                         DontDestroyOnLoad(go);  // 防止被销毁
                         _instance = go.AddComponent<GameManager>(); // 将实例挂载到GameObject上
                     }

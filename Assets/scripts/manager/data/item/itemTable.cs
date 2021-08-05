@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 public class itemTable
-    {
+{
 
     static itemTable _instance;
 
@@ -13,70 +13,71 @@ public class itemTable
     private SqliteDataReader SqlReader;
 
 
-        public itemTable()
+    public itemTable()
+    {
+        //连接数据库
+        SqlConnection = new SqliteConnection("data source=" + Application.streamingAssetsPath + "/database.db");
+        SqlConnection.Open();
+        SqlCommand = SqlConnection.CreateCommand();
+    }
+
+    public void clearData()
+    {
+
+        SqlCommand.CommandText = "Truncate Table item";
+        SqlReader = SqlCommand.ExecuteReader();
+        SqlReader.Close();
+    }
+
+
+
+    public itemStructure getDataById(int id)
+    {
+        Debug.Log("iiiid" + id);
+        SqlCommand.CommandText = "SELECT * FROM item WHERE id = " + id;
+        SqlReader = SqlCommand.ExecuteReader();
+        itemStructure result = new itemStructure();
+
+        while (SqlReader.Read())
         {
-            //连接数据库
-            SqlConnection = new SqliteConnection("data source=" + Application.streamingAssetsPath + "/database.db");
-            SqlConnection.Open();
-            SqlCommand = SqlConnection.CreateCommand();
+            result.name = (string)SqlReader["name"];
+            result.headpic = (string)SqlReader["headpic"];
+
+            result.type = int.Parse(SqlReader["type"].ToString());
+            result.id = int.Parse(SqlReader["id"].ToString());
         }
 
-        public void clearData() {
+        SqlReader.Close();
 
-            SqlCommand.CommandText = "Truncate Table item";
-            SqlReader = SqlCommand.ExecuteReader();
-            SqlReader.Close();
-        }
+        return result;
+    }
 
-        
 
-        public itemStructure getDataById(int id)
+    public List<itemStructure> getAllData()
+    {
+        //获取全部数据
+        SqlCommand.CommandText = "SELECT * FROM item";
+        SqlReader = SqlCommand.ExecuteReader();
+
+        List<itemStructure> list = new List<itemStructure>();
+
+        while (SqlReader.Read())
         {
-            Debug.Log("iiiid"+id);
-            SqlCommand.CommandText = "SELECT * FROM item WHERE id = " + id;
-            SqlReader = SqlCommand.ExecuteReader();
             itemStructure result = new itemStructure();
 
-            while (SqlReader.Read())
-            {
-                result.name = (string)SqlReader["name"];
-                result.headpic =  (string)SqlReader["headpic"];
+            result.name = (string)SqlReader["name"];
+            result.type = (int)SqlReader["type"];
+            result.headpic = (string)SqlReader["bodypic"];
 
-                result.type = int.Parse(SqlReader["type"].ToString());
-                result.id = int.Parse(SqlReader["id"].ToString());
-            }
+            result.id = int.Parse(SqlReader["id"].ToString());
 
-            SqlReader.Close();
+            list.Add(result);
 
-            return result;
         }
 
-
-        public List<itemStructure> getAllData()
-        {
-            //获取全部数据
-            SqlCommand.CommandText = "SELECT * FROM item";
-            SqlReader = SqlCommand.ExecuteReader();
-
-            List<itemStructure> list = new List<itemStructure>();
-
-            while (SqlReader.Read())
-            {
-            itemStructure result = new itemStructure();
-
-                result.name = (string)SqlReader["name"];
-                result.type = (int)SqlReader["type"];
-                result.headpic =  (string)SqlReader["bodypic"];
-
-                result.id = int.Parse(SqlReader["id"].ToString());
-
-                list.Add(result);
-
-            }
-
-            SqlReader.Close();
-            return list;
-        }
+        SqlReader.Close();
+        return list;
+    }
 
     static public itemTable Instance
     {

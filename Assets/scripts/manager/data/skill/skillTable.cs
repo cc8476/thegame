@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 public class skillTable
-    {
+{
 
     static skillTable _instance;
 
@@ -13,77 +13,78 @@ public class skillTable
     private SqliteDataReader SqlReader;
 
 
-        public skillTable()
+    public skillTable()
+    {
+        //连接数据库
+        SqlConnection = new SqliteConnection("data source=" + Application.streamingAssetsPath + "/database.db");
+        SqlConnection.Open();
+        SqlCommand = SqlConnection.CreateCommand();
+    }
+
+    public void clearData()
+    {
+
+        SqlCommand.CommandText = "delete from skill";
+        SqlReader = SqlCommand.ExecuteReader();
+        SqlReader.Close();
+    }
+
+
+    public skillStruct getDataById(int id)
+    {
+        SqlCommand.CommandText = "SELECT * FROM skill WHERE id = " + id;
+        SqlReader = SqlCommand.ExecuteReader();
+        skillStruct result = new skillStruct();
+
+        while (SqlReader.Read())
         {
-            //连接数据库
-            SqlConnection = new SqliteConnection("data source=" + Application.streamingAssetsPath + "/database.db");
-            SqlConnection.Open();
-            SqlCommand = SqlConnection.CreateCommand();
+            result.name = (string)SqlReader["name"];
+            result.icon = (string)SqlReader["icon"];
+            result.des = (string)SqlReader["des"];
+
+            result.id = int.Parse(SqlReader["id"].ToString());
+            result.att = int.Parse(SqlReader["att"].ToString());
+            result.attAll = int.Parse(SqlReader["attAll"].ToString());
+            result.attPosition = int.Parse(SqlReader["attPosition"].ToString());
+            result.attType = int.Parse(SqlReader["attType"].ToString());
+
         }
 
-        public void clearData() {
+        SqlReader.Close();
 
-            SqlCommand.CommandText = "delete from skill";
-            SqlReader = SqlCommand.ExecuteReader();
-            SqlReader.Close();
-        }
+        return result;
+    }
 
 
-        public skillStruct getDataById(int id)
+    public List<skillStruct> getAllData()
+    {
+        //获取全部数据
+        SqlCommand.CommandText = "SELECT * FROM skill";
+        SqlReader = SqlCommand.ExecuteReader();
+
+        List<skillStruct> list = new List<skillStruct>();
+
+        while (SqlReader.Read())
         {
-            SqlCommand.CommandText = "SELECT * FROM skill WHERE id = " + id;
-            SqlReader = SqlCommand.ExecuteReader();
             skillStruct result = new skillStruct();
 
-            while (SqlReader.Read())
-            {
-                result.name = (string)SqlReader["name"];
-                result.icon =  (string)SqlReader["icon"];
-                result.des = (string)SqlReader["des"];
+            result.name = (string)SqlReader["name"];
+            result.icon = (string)SqlReader["icon"];
+            result.des = (string)SqlReader["des"];
 
-                result.id = int.Parse(SqlReader["id"].ToString());
-                result.att = int.Parse(SqlReader["att"].ToString());
-                result.attAll = int.Parse(SqlReader["attAll"].ToString());
-                result.attPosition = int.Parse(SqlReader["attPosition"].ToString());
-                result.attType = int.Parse(SqlReader["attType"].ToString());
-  
+            result.id = int.Parse(SqlReader["id"].ToString());
+            result.att = int.Parse(SqlReader["att"].ToString());
+            result.attAll = int.Parse(SqlReader["attAll"].ToString());
+            result.attPosition = int.Parse(SqlReader["attPosition"].ToString());
+            result.attType = int.Parse(SqlReader["attType"].ToString());
+
+            list.Add(result);
+
         }
 
-            SqlReader.Close();
-
-            return result;
-        }
-
-
-        public List<skillStruct> getAllData()
-        {
-            //获取全部数据
-            SqlCommand.CommandText = "SELECT * FROM skill";
-            SqlReader = SqlCommand.ExecuteReader();
-
-            List<skillStruct> list = new List<skillStruct>();
-
-            while (SqlReader.Read())
-            {
-                skillStruct result = new skillStruct();
-
-                result.name = (string)SqlReader["name"];
-                result.icon =  (string)SqlReader["icon"];
-                result.des = (string)SqlReader["des"];
-
-                result.id = int.Parse(SqlReader["id"].ToString());
-                result.att = int.Parse(SqlReader["att"].ToString());
-                result.attAll = int.Parse(SqlReader["attAll"].ToString());
-                result.attPosition = int.Parse(SqlReader["attPosition"].ToString());
-                result.attType = int.Parse(SqlReader["attType"].ToString());
-
-                list.Add(result);
-
-            }
-
-            SqlReader.Close();
-            return list;
-        }
+        SqlReader.Close();
+        return list;
+    }
 
     static public skillTable Instance
     {

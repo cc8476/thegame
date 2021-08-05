@@ -2,9 +2,9 @@ public struct randomStruct
 {
 
 
-   public string name;//事件名称
-   public string des;//事件描述
-   public string pic;//事件图片
+    public string name;//事件名称
+    public string des;//事件描述
+    public string pic;//事件图片
 
     public int id;
     public int roleId;//赠送的角色id
@@ -22,7 +22,7 @@ public struct randomStruct
     public randomEventType type;//1=英雄；2=金币 3=道具 4=神器
 
 
-};  
+};
 
 
 
@@ -31,7 +31,7 @@ public enum randomEventType
     MissionTips = 0,
     Role = 1,
     Coin = 2,
-    Item =3,
-    Miracle =4
+    Item = 3,
+    Miracle = 4
 }
 //0=任务提示;1=英雄；2=金币 3=道具 4=神器
