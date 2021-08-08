@@ -6,5 +6,5 @@ public class Scene
     public static string introGame = "introGame";//游戏介绍
     public static string town = "town";//城镇面板
     public static string mapScene = "mapScene";//地图面板
-
+    public static string beginMenu = "beginMenu";//开始菜单
 }

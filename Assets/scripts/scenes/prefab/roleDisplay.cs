@@ -12,10 +12,10 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public Text hpTxt;//血量显示ui
     public Image arrow;
 
-    public int roldId;
-    public int chartype;
+    public int roleId;
+    public int chartype;//chartype =0  role , =1 enemy
 
-    public int status;//1= 当前是攻击者
+    public int status;//1= 当前是攻击者 0=什么都不是
 
     // Start is called before the first frame update
     void OnEnable()
@@ -33,20 +33,43 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         Debug.Log("zzzzzzzz" + JsonUtility.ToJson(role));
 
         transform.Find("Canvas/nameTxt").GetComponent<Text>().text = role.name;
-        transform.Find("Canvas/hpTxt").GetComponent<Text>().text = role.hp.ToString();
+        transform.Find("Canvas/hpTxt").GetComponent<Text>().text = role.curhp.ToString() +"/"+role.hp.ToString();
         transform.Find("Canvas/bodyImg").GetComponent<Image>().sprite = ImageTool.LoadSpriteByIO(Application.streamingAssetsPath + role.bodypic);
 
 
 
-        roldId = role.id;//
+        roleId = role.id;//
         this.chartype = chartype;//
+
+        if(role.curhp<=0) {
+            Material mat = Resources.Load<Material>("material/greyEffect");
+            transform.Find("Canvas/bodyImg").GetComponent<Image>().material = mat;
+        }
+
+
     }
 
     //被攻击，找一个更好看的shader
-    public void beAttack()
+    public int beAttack(float loseHP)
     {
+        RoleStruct r = new RoleStruct();
+        if (this.chartype==0)
+        {
+          r = roleTable.Instance.loseHP(loseHP, this.roleId);
+        }
+        else
+        {
+            r = enemyTable.Instance.loseHP(loseHP, this.roleId);
+        }
+        
+
+        Debug.Log("当前损失：" + loseHP);
         Material mat = Resources.Load<Material>("material/blurEffect");
         transform.Find("Canvas/bodyImg").GetComponent<Image>().material = mat;
+
+        this.render(r, this.chartype);
+        return r.curhp;
+
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -55,7 +78,7 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         setOutline(true);
 
         // 触发事件
-        int[] data = { this.roldId, this.chartype };
+        int[] data = { this.roleId, this.chartype };
         ObjectEventDispatcher.dispatcher.dispatchEvent(new UEvent(EventTypeName.HOVER_ROLE, data), this);
 
 
@@ -97,6 +120,12 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         this.renderStatus();
     }
 
+    internal void notReady()
+    {
+        this.status = 0;
+        this.renderStatus();
+    }
+
     internal void renderStatus()
     {
         switch (this.status)
@@ -104,6 +133,10 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             case 1:
                 arrow.color = new Color(255, 255, 255, 255);
                 setOutline(true);
+                break;
+            case 0:
+                arrow.color = new Color(255, 255, 255, 0);
+                setOutline(false);
                 break;
         }
 

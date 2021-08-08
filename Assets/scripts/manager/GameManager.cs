@@ -41,16 +41,30 @@ namespace manager
 
         public void setCurrentEnemyList()
         {
+            enemyTable.Instance.clearData();
+
+
             int currentTurn = GameManager.Instance.turn;
             int count = 0;
 
-            List<enemyStruct> eList = enemyTable.Instance.getAllData();
+            List<enemyStruct> eList = rawEnemyTable.Instance.getAllData();
+
+            //现在是从enmey table获取id[1,2,3]
+            //然后从enmey table去取
+
+            //改成从rawEnemy中获取id[1,2,3]
+            //把[1,2,3]的记录 insert 到enemy table
+            //然后得到list [4,5,6]
+
             foreach (enemyStruct item in eList)
             {
                 if (count == 3) break;
                 if (item.turnMin <= currentTurn && item.turnMax >= currentTurn)
                 {
-                    GameManager.Instance.enemyList.Add(item.id);
+                    int id = enemyTable.Instance.insert(item);
+
+
+                    GameManager.Instance.enemyList.Add(id);
                     count++;
                 }
             }
@@ -108,10 +122,16 @@ namespace manager
             GameManager.Instance.itemList = sd.itemList;
             GameManager.Instance.enemyList = sd.enemyList;
             GameManager.Instance.currentEventId = sd.currentEventId;
+        }
 
-
-
-
+        public void clearBin()
+        {
+            string path = Application.dataPath + "/save.bin";
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            
         }
 
         //检查是否有存档

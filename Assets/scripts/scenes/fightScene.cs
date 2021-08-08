@@ -11,16 +11,14 @@ public class fightScene : MonoBehaviour
     // Start is called before the first frame update
     private GameObject retreatBtn;//撤退按钮
     private Text roundTxt;//
-
     private GameObject canvas;//画布
-
     private GameObject rolePane;// 人物面板
     private int currentRound = 1;//当前轮次
     private Dictionary<int, fightRoleStruct> roles = new Dictionary<int, fightRoleStruct>();//我方组 int = id
     private Dictionary<int, fightRoleStruct> enemies = new Dictionary<int, fightRoleStruct>();//敌人组
     private int currentChar = -1;//当前执行角色id
     private int currentType = -1;//当前执行角色类别 0= roles, 1= enemies
-
+    private fightRoleStruct currentRole;//当前role
     private int currentBeAttackChar = -1;//当前被攻击的角色id
 
     void Start()
@@ -38,7 +36,7 @@ public class fightScene : MonoBehaviour
 
     }
 
-    initRolesEnemies()
+    private void initRolesEnemies()
     {
 
         //展示role的人物形象
@@ -94,27 +92,31 @@ public class fightScene : MonoBehaviour
     }
 
     //根据roles和enemies，得到当前的轮次
-    private void setCurrentChar()
+    //有返回值，说明该轮还有下一个role可行动
+    private bool setCurrentChar()
     {
         int currentSpeed = -1;//当前最高speed
         int currentOrder = -1;//当前最高speed的id
         int currentType = -1;//0=role ,1= enemy
+        fightRoleStruct currentRole =new fightRoleStruct();
         foreach (KeyValuePair<int, fightRoleStruct> single in roles)
         {
-            if (!single.Value.acted && single.Value.speed >= currentSpeed)
+            if (!single.Value.acted && single.Value.active && single.Value.speed >= currentSpeed)
             {
                 currentSpeed = single.Value.speed;
                 currentOrder = single.Key;
+                currentRole = single.Value;
                 currentType = 0;
             }
         }
 
         foreach (KeyValuePair<int, fightRoleStruct> single in enemies)
         {
-            if (!single.Value.acted && single.Value.speed >= currentSpeed)
+            if (!single.Value.acted && single.Value.active && single.Value.speed >= currentSpeed)
             {
                 currentSpeed = single.Value.speed;
                 currentOrder = single.Key;
+                currentRole = single.Value;
                 currentType = 1;
             }
         }
@@ -123,10 +125,22 @@ public class fightScene : MonoBehaviour
 
         this.currentChar = currentOrder;
         this.currentType = currentType;
+        this.currentRole = currentRole;
+
+        return (this.currentChar >= 0) ? true : false;
     }
 
     private void renderUI()
     {
+
+        foreach (KeyValuePair<int, fightRoleStruct> single in roles)
+        {
+            single.Value.ui.notReady();
+        }
+        foreach (KeyValuePair<int, fightRoleStruct> single in enemies)
+        {
+            single.Value.ui.notReady();
+        }
 
         //开始渲染
         roundTxt.text = "第" + this.currentRound.ToString() + "轮";
@@ -140,6 +154,8 @@ public class fightScene : MonoBehaviour
         {
             rd = (roleDisplay)enemies[this.currentChar].ui;
         }
+
+
 
         rd.ready();
     }
@@ -163,12 +179,49 @@ public class fightScene : MonoBehaviour
             if (item.Value.ui == target)
             {
 
-                Debug.Log("当前被攻击的是1:" + item.Key);
-                Debug.Log("当前被攻击的是2:" + item.Value);
-                this.currentBeAttackChar = item.Key;
-                fightRoleStruct attackTarget = item.Value;
-                attackTarget.ui.beAttack();
+                /**
+                当前技能的攻击力 + 当前攻击者的att
+                判断是否暴击 critial 是的话，*1.5
 
+                最后 * (1 - 防御力 / 100)
+
+                得到最后的扣血量
+                **/
+
+                fightRoleStruct attackTarget = item.Value;
+                skillStruct sk = FghtManager.Instance.sk;
+                float att = (float)currentRole.role.att + (float)sk.att;
+
+                Debug.Log("currentRole.role.att:" + currentRole.role.att);
+                Debug.Log("sk.att:" + sk.att);
+                Debug.Log("att:" + att);
+
+                if (Random.Range(0, 100) <= currentRole.critical)
+                {
+                    att = Mathf.Round(att * 3 / 2);
+                }
+
+                att = att * (100 - attackTarget.def) / 100;
+
+
+
+
+                //更新状态
+                int curhp = attackTarget.ui.beAttack(att);
+                if(curhp<=0) {
+                    attackTarget.active = false;//设置死亡状态
+                }
+                currentRole.acted = true;
+
+
+
+                //检查是否胜利  是否下一个角色
+                if (!this.checkGameEnd()) {
+                    this.nextPlayer();
+                }
+
+
+              
 
 
                 break;
@@ -181,6 +234,83 @@ public class fightScene : MonoBehaviour
 
 
     }
+
+    //是否可以下一轮
+    //轮次ui
+    //设定当前的攻击者箭头
+    private void nextPlayer() {
+
+        if (this.setCurrentChar())
+        {
+            this.renderUI();//渲染当前ui
+        }
+        else {
+            this.nextRound();
+     
+        }
+
+
+        
+
+    }
+    private void nextRound()
+    {
+        Debug.Log("下一轮 nextRound");
+        this.currentRound += 1;
+        foreach (KeyValuePair<int, fightRoleStruct> single in roles)
+        {
+            single.Value.acted = false;
+        }
+
+        foreach (KeyValuePair<int, fightRoleStruct> single in enemies)
+        {
+            single.Value.acted = false;
+        }
+        this.nextPlayer();
+    }
+
+
+    private bool checkGameEnd() {
+        bool win = true;
+        bool lose = true;
+        foreach (KeyValuePair<int, fightRoleStruct> single in roles)
+        {
+            Debug.Log("single.Value.active:" + single.Value.active);
+            if(single.Value.active)
+            {
+                lose = false;
+                break;
+            }
+        }
+
+        foreach (KeyValuePair<int, fightRoleStruct> single in enemies)
+        {
+            Debug.Log("enemies.Value.active:" + single.Value.active);
+            if (single.Value.active)
+            {
+                win = false;
+                break;
+            }
+        }
+
+        if(win || lose) {
+            GameObject instance = (GameObject)Instantiate(Resources.Load("fightEnd"), transform.position, canvas.transform.rotation);
+            instance.transform.parent = canvas.transform;
+            instance.transform.position = transform.position;
+
+            fightEnd pane = (fightEnd)instance.GetComponent(typeof(fightEnd));
+            pane.render(win, lose);
+
+            return true;
+        }
+
+        return false;
+
+
+
+
+    }
+
 
 
 

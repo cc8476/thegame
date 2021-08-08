@@ -15,6 +15,8 @@ public class skillDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     private int status;//0=未选中 1=选中
 
+    private skillStruct sk;
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +26,7 @@ public class skillDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void render(int skillId)
     {
         this.skillId = skillId;
-        skillStruct sk = skillTable.Instance.getDataById(skillId);
+        sk = skillTable.Instance.getDataById(skillId);
         transform.Find("Canvas/nameTxt").GetComponent<Text>().text = sk.name.ToString();
         transform.Find("Canvas/attTxt").GetComponent<Text>().text = "攻击:" + sk.att.ToString();
         transform.Find("Canvas/desTxt").GetComponent<Text>().text = "描述:" + sk.des.ToString();
@@ -78,6 +80,7 @@ public class skillDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         {
             case 1:
                 transform.Find("Canvas/icon").GetComponent<Image>().GetComponent<Outline>().enabled = true;
+                FghtManager.Instance.sk = sk;
                 break;
             case 0:
                 transform.Find("Canvas/icon").GetComponent<Image>().GetComponent<Outline>().enabled = false;

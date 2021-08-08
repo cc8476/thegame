@@ -29,6 +29,20 @@ public class roleTable
         SqlReader.Close();
     }
 
+    public RoleStruct loseHP(float lostHp,int roleId)
+    {
+        RoleStruct role = getDataById(roleId);
+        int curHp = role.curhp - (int)lostHp;
+
+        string command = "update role set curhp = " + curHp + " where id=" + roleId;
+        SqlCommand.CommandText = command;
+        Debug.Log("command:"+command);
+        SqlReader = SqlCommand.ExecuteReader();
+        SqlReader.Close();
+
+        return getDataById(roleId);
+    }
+
     public void insertByRawRoleId(int rowroleId)
     {
         RawRoleStructure r = rawroleTable.Instance.getDataById(rowroleId);
@@ -74,6 +88,7 @@ public class roleTable
             result.rawRoleId = int.Parse(SqlReader["rawRoleId"].ToString());
             result.order = int.Parse(SqlReader["order"].ToString());
             result.curhp = int.Parse(SqlReader["curhp"].ToString());
+            result.hp = int.Parse(SqlReader["hp"].ToString());
             result.status = int.Parse(SqlReader["status"].ToString());
 
         }
@@ -114,6 +129,7 @@ public class roleTable
             result.rawRoleId = int.Parse(SqlReader["rawRoleId"].ToString());
             result.order = int.Parse(SqlReader["order"].ToString());
             result.curhp = int.Parse(SqlReader["curhp"].ToString());
+            result.hp = int.Parse(SqlReader["hp"].ToString());
             result.status = int.Parse(SqlReader["status"].ToString());
 
             list.Add(result);

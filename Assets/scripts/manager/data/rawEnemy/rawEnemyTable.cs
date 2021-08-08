@@ -3,18 +3,17 @@ using Mono.Data.Sqlite;
 using UnityEngine;
 
 
-public class rawroleTable
+public class rawEnemyTable
 {
 
-    static rawroleTable _instance;
+    static rawEnemyTable _instance;
 
     private SqliteConnection SqlConnection;
     private SqliteCommand SqlCommand;
     private SqliteDataReader SqlReader;
 
-    //private string tableName = 'RawRole';
 
-    public rawroleTable()
+    public rawEnemyTable()
     {
         //连接数据库
         SqlConnection = new SqliteConnection("data source=" + Application.streamingAssetsPath + "/database.db");
@@ -22,11 +21,19 @@ public class rawroleTable
         SqlCommand = SqlConnection.CreateCommand();
     }
 
-    public RawRoleStructure getDataById(int id)
+    public void clearData()
     {
-        SqlCommand.CommandText = "SELECT * FROM RawRole WHERE id = " + id;
+        SqlCommand.CommandText = "DELETE FROM rawEnemy";
         SqlReader = SqlCommand.ExecuteReader();
-        RawRoleStructure result = new RawRoleStructure();
+        
+        SqlReader.Close();
+    }
+
+    public enemyStruct getDataById(int id)
+    {
+        SqlCommand.CommandText = "SELECT * FROM rawEnemy WHERE id = " + id;
+        SqlReader = SqlCommand.ExecuteReader();
+        enemyStruct result = new enemyStruct();
 
         while (SqlReader.Read())
         {
@@ -34,6 +41,7 @@ public class rawroleTable
             result.headpic = (string)SqlReader["headpic"];
             result.bodypic = (string)SqlReader["bodypic"];
             result.skills = (string)SqlReader["skills"];
+
 
             result.id = int.Parse(SqlReader["id"].ToString());
             result.critical = int.Parse(SqlReader["critical"].ToString());
@@ -45,6 +53,14 @@ public class rawroleTable
             result.coin = int.Parse(SqlReader["coin"].ToString());
             result.att = int.Parse(SqlReader["att"].ToString());
             result.hp = int.Parse(SqlReader["hp"].ToString());
+
+            result.curhp = int.Parse(SqlReader["curhp"].ToString());
+
+
+
+            result.turnMin = int.Parse(SqlReader["turnMin"].ToString());
+            result.turnMax = int.Parse(SqlReader["turnMax"].ToString());
+
 
         }
 
@@ -54,17 +70,32 @@ public class rawroleTable
     }
 
 
-    public List<RawRoleStructure> getAllData()
+    public enemyStruct loseHP(float lostHp, int roleId)
+    {
+        enemyStruct role = getDataById(roleId);
+        int curHp = role.curhp - (int)lostHp;
+
+        string command = "update rawEnemy set curhp = " + curHp + " where id=" + roleId;
+        SqlCommand.CommandText = command;
+        Debug.Log("command:" + command);
+        SqlReader = SqlCommand.ExecuteReader();
+        SqlReader.Close();
+
+        return getDataById(roleId);
+    }
+
+
+    public List<enemyStruct> getAllData()
     {
         //获取全部数据
-        SqlCommand.CommandText = "SELECT * FROM RawRole";
+        SqlCommand.CommandText = "SELECT * FROM rawEnemy";
         SqlReader = SqlCommand.ExecuteReader();
 
-        List<RawRoleStructure> list = new List<RawRoleStructure>();
+        List<enemyStruct> list = new List<enemyStruct>();
 
         while (SqlReader.Read())
         {
-            RawRoleStructure result = new RawRoleStructure();
+            enemyStruct result = new enemyStruct();
 
             result.name = (string)SqlReader["name"];
             result.headpic = (string)SqlReader["headpic"];
@@ -81,6 +112,11 @@ public class rawroleTable
             result.coin = int.Parse(SqlReader["coin"].ToString());
             result.att = int.Parse(SqlReader["att"].ToString());
             result.hp = int.Parse(SqlReader["hp"].ToString());
+            result.curhp = int.Parse(SqlReader["curhp"].ToString());
+
+            result.turnMin = int.Parse(SqlReader["turnMin"].ToString());
+            result.turnMax = int.Parse(SqlReader["turnMax"].ToString());
+
             list.Add(result);
 
         }
@@ -89,13 +125,13 @@ public class rawroleTable
         return list;
     }
 
-    static public rawroleTable Instance
+    static public rawEnemyTable Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = new rawroleTable();
+                _instance = new rawEnemyTable();
             }
             return _instance;
         }
