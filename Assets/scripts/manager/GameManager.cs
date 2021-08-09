@@ -250,7 +250,7 @@ namespace manager
                     int count = rawroleTable.Instance.getAllData().Count;
                     int roleId = Random.Range(0, count);
                     roleTable.Instance.insertByRawRoleId(roleId);
-                    showEvent.roleIdSending = roleId;
+                    showEvent.roleId = roleId;
 
                     break;
                 case randomEventType.Item:
@@ -279,11 +279,11 @@ namespace manager
                 this.lastEventsPaneTransform = transform;
             }
 
-            Debug.Log("checkEvents GameManager");
 
             List<eventStruct> list = eventTable.Instance.getAllData();
-            foreach (eventStruct e in list)
+            foreach (eventStruct rawEvent in list)
             {
+                var e = rawEvent;
                 //轮次和波次是否触发事件 ,并且id需要大于记录的历史id
                 if (e.turn == GameManager.Instance.turn && e.wave == GameManager.Instance.wave
                     && e.id > this.currentEventId
@@ -293,9 +293,11 @@ namespace manager
                     //增加角色
                     if (e.type == eventStructType.Role)
                     {
-                        roleTable.Instance.insertByRawRoleId(e.roleIdSending);
+                        RawRoleStructure r =   rawroleTable.Instance.getDataByQuality(e.roleQuality);
+                        roleTable.Instance.insertByRawRoleId(r.id);
 
                         this.currentEventId = e.id;
+                        e.roleId  = r.id;
                         showEventPane(e, transform);
                         return;
 

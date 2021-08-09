@@ -8,7 +8,9 @@ public struct eventStruct
     public string pic;//事件图片
 
 
-    public int roleIdSending;//赠送的角色id
+    public int roleQuality;//赠送的角色质量
+    public int roleId;//实际赠与的roleId
+
     public int coinSending;//赠送的金币
     public int itemIdSending;//赠送的物品id
     public int miracleIdSending;//赠送的神器id
@@ -20,38 +22,6 @@ public struct eventStruct
 
 
 
-    public void setValues(
-        string name = "事件名称",
-        int turn = -1, int wave = -1, int roleIdSending = 0, int coinSending = 5,
-        int itemIdSending = 5, int miracleIdSending = 0, string pic = "default_event.png", string des = "默认描述"
-        )
-    {
-        this.name = name;
-        this.turn = turn;
-        this.wave = wave;
-        this.roleIdSending = roleIdSending;
-        this.coinSending = coinSending;
-        this.itemIdSending = itemIdSending;
-        this.miracleIdSending = miracleIdSending;
-        this.pic = pic;
-        this.des = des;
-    }
-
-    public void addHero(
-       string name = "英雄名",
-       int turn = -1, int wave = -1, int roleIdSending = 0,
-       string pic = "default_event.png", string des = "默认描述"
-       )
-    {
-        this.name = name;
-        this.turn = turn;
-        this.wave = wave;
-        this.roleIdSending = roleIdSending;
-        this.pic = pic;
-        this.des = des;
-
-        this.type = eventStructType.Role;
-    }
     public void addItem(
        string name = "道具名",
        int turn = -1, int wave = -1, int itemIdSending = 0,

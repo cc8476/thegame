@@ -1,9 +1,11 @@
 ﻿<Properties StartupConfiguration="{5EFAC6E5-EB73-81F6-6576-EC7B7F487346}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/scenes/mapScene.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/scenes/Main.cs">
     <Files>
-      <File FileName="Assets/scripts/scenes/mapScene.cs" Line="74" Column="92" />
-      <File FileName="Assets/scripts/scenes/townScene.cs" Line="21" Column="77" />
-      <File FileName="Assets/scripts/utils/ImageTool.cs" Line="8" Column="44" />
+      <File FileName="Assets/scripts/scenes/Main.cs" Line="28" Column="38" />
+      <File FileName="Assets/scripts/manager/GameManager.cs" Line="271" Column="10" />
+      <File FileName="Assets/scripts/scenes/prefab/EventPane.cs" />
+      <File FileName="Assets/scripts/manager/data/rawrole/rawroleTable.cs" />
+      <File FileName="Assets/scripts/manager/data/event/event.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,6 +16,8 @@
                 <Node name="manager" expanded="True">
                   <Node name="data" expanded="True">
                     <Node name="enemy" expanded="True" />
+                    <Node name="event" expanded="True" />
+                    <Node name="randomEvent" expanded="True" />
                     <Node name="rawEnemy" expanded="True" />
                     <Node name="rawrole" expanded="True" />
                     <Node name="role" expanded="True" />
@@ -21,7 +25,7 @@
                 </Node>
                 <Node name="scenes" expanded="True">
                   <Node name="prefab" expanded="True" />
-                  <Node name="mapScene.cs" selected="True" />
+                  <Node name="Main.cs" selected="True" />
                 </Node>
                 <Node name="utils" expanded="True">
                   <Node name="events" expanded="True" />
@@ -35,7 +39,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="bfbfeb76-b167-4dc6-8f1e-5d0f0b52ece6" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="0081afb1-9f9b-4102-8466-88d7c7cd1f2a" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

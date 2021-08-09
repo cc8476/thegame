@@ -52,7 +52,7 @@ public class EventPane : MonoBehaviour
         //奖励是role
         if (currentEvent.type == eventStructType.Role)
         {
-            RawRoleStructure role = rawroleTable.Instance.getDataById(currentEvent.roleIdSending);
+            RawRoleStructure role = rawroleTable.Instance.getDataById(currentEvent.roleId);
 
             string headpic = role.headpic;
             Debug.Log("Application.streamingAssetsPath " + Application.streamingAssetsPath);

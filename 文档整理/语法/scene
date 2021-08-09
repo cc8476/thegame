@@ -32,5 +32,26 @@ UnloadScene   卸载所有和指定场景关联的物体。
 
 
 
+异步加载场景的回调：
+    IEnumerator LoadScene(int index)
+    {
+        Ani.SetBool("FadeIn", true);
+        Ani.SetBool("FadeOut", false);
+
+        yield return new WaitForSeconds(1);
+
+        AsyncOperation async = SceneManager.LoadSceneAsync(index);
+        async.completed += OnloadScene;
+
+    }
+
+    private void OnloadScene(AsyncOperation obj)
+    {
+        Ani.SetBool("FadeIn", false);
+        Ani.SetBool("FadeOut", true);
+    }
+
+
+
 
 

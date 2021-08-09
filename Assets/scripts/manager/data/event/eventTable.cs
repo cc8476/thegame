@@ -36,7 +36,7 @@ public class eventTable
             result.id = int.Parse(SqlReader["id"].ToString());
             result.turn = int.Parse(SqlReader["turn"].ToString());
             result.wave = int.Parse(SqlReader["wave"].ToString());
-            result.roleIdSending = int.Parse(SqlReader["roleIdSending"].ToString());
+            result.roleQuality = int.Parse(SqlReader["roleQuality"].ToString());
             result.coinSending = int.Parse(SqlReader["coinSending"].ToString());
             result.itemIdSending = int.Parse(SqlReader["itemIdSending"].ToString());
             result.miracleIdSending = int.Parse(SqlReader["miracleIdSending"].ToString());
@@ -70,7 +70,7 @@ public class eventTable
             result.id = int.Parse(SqlReader["id"].ToString());
             result.turn = int.Parse(SqlReader["turn"].ToString());
             result.wave = int.Parse(SqlReader["wave"].ToString());
-            result.roleIdSending = int.Parse(SqlReader["roleIdSending"].ToString());
+            result.roleQuality = int.Parse(SqlReader["roleQuality"].ToString());
             result.coinSending = int.Parse(SqlReader["coinSending"].ToString());
             result.itemIdSending = int.Parse(SqlReader["itemIdSending"].ToString());
             result.miracleIdSending = int.Parse(SqlReader["miracleIdSending"].ToString());

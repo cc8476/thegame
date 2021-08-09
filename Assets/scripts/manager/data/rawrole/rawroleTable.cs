@@ -25,6 +25,19 @@ public class rawroleTable
     public RawRoleStructure getDataById(int id)
     {
         SqlCommand.CommandText = "SELECT * FROM RawRole WHERE id = " + id;
+        return this.getData();
+    }
+
+    public RawRoleStructure getDataByQuality(int quality)
+    {
+        SqlCommand.CommandText = "SELECT * FROM RawRole" +
+            " WHERE quality = " + quality + " order by random() limit 1";
+        return this.getData();
+    }
+
+    private RawRoleStructure getData()
+    {
+
         SqlReader = SqlCommand.ExecuteReader();
         RawRoleStructure result = new RawRoleStructure();
 
@@ -52,7 +65,6 @@ public class rawroleTable
 
         return result;
     }
-
 
     public List<RawRoleStructure> getAllData()
     {

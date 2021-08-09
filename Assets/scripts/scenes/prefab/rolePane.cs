@@ -41,7 +41,7 @@ public class rolePane : MonoBehaviour
         }
         this.sonobj.Clear();
 
-        //从roldId中获取role
+        //从roleId中获取role
 
         string skill = "";
         if (roldType == 0)

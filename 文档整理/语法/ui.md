@@ -63,3 +63,8 @@ scaler:
 
 canvas 使用world space的 render type是否更好？因为可以设置canvas自身的position
 其余2个都不可设置；
+
+
+
+
+Unity GUI 之定位RaycastTarget取消不必要交互 ：类似于去掉鼠标监听，这样就不会阻挡其他元素触发事件了
