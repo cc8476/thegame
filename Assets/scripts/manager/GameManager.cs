@@ -14,13 +14,18 @@ namespace manager
         static GameManager _instance;
         public int coin = 0;//金币
         public int level = 1;//等级
-        public int turn = -1;//当前轮次
-        public int wave = -1;//当前波次
+        [Tooltip("当前轮次  map打通后，+1")]
+        public int turn = -1;//
+        [Tooltip("当前波次  战斗胜利后 +1")]
+        public int wave = -1;// 
         public List<int> itemList;//道具列表
         public List<int> enemyList;//当前波次的敌人列表
         public eventStruct currentEvent;//当前的事件奖励
         public int currentEventId;//当前的事件奖励Id (奖励过的不再查询)
 
+        private Transform lastEventsPaneTransform;//上次奖励场景
+        private bool eventPaneExist =false;
+        private EventPane EventPaneInstance;
 
         public void init()
         {
@@ -42,31 +47,45 @@ namespace manager
         public void setCurrentEnemyList()
         {
             enemyTable.Instance.clearData();
+            GameManager.Instance.enemyList.Clear();
 
 
             int currentTurn = GameManager.Instance.turn;
-            int count = 0;
 
-            List<enemyStruct> eList = rawEnemyTable.Instance.getAllData();
-
-            //现在是从enmey table获取id[1,2,3]
-            //然后从enmey table去取
-
-            //改成从rawEnemy中获取id[1,2,3]
-            //把[1,2,3]的记录 insert 到enemy table
-            //然后得到list [4,5,6]
+            List<enemyStruct> eList = rawEnemyTable.Instance.getEnemiesData(3,currentTurn,false);
 
             foreach (enemyStruct item in eList)
             {
-                if (count == 3) break;
-                if (item.turnMin <= currentTurn && item.turnMax >= currentTurn)
-                {
-                    int id = enemyTable.Instance.insert(item);
+                int id = enemyTable.Instance.insert(item);
+                GameManager.Instance.enemyList.Add(id);
+            }
+
+        }
+
+        public void setCurrentBossList()
+        {
+            enemyTable.Instance.clearData();
+            GameManager.Instance.enemyList.Clear();
 
 
-                    GameManager.Instance.enemyList.Add(id);
-                    count++;
-                }
+            int currentTurn = GameManager.Instance.turn;
+            //获取2个小兵
+            bool isBoss = false;
+            List<enemyStruct> eList = rawEnemyTable.Instance.getEnemiesData(2, currentTurn,isBoss);
+
+            foreach (enemyStruct item in eList)
+            {
+                int id = enemyTable.Instance.insert(item);
+                GameManager.Instance.enemyList.Add(id);
+            }
+            isBoss = true;
+            //获取一个boss
+            List<enemyStruct> eList2 = rawEnemyTable.Instance.getEnemiesData(1, currentTurn, isBoss);
+
+            foreach (enemyStruct item in eList2)
+            {
+                int id = enemyTable.Instance.insert(item);
+                GameManager.Instance.enemyList.Add(id);
             }
 
         }
@@ -152,17 +171,33 @@ namespace manager
 
 
 
-        public void showEventPane(eventStruct e)
+        public void showEventPane(eventStruct e,Transform transform)
         {
-            currentEvent = e;
-            if (SceneManager.GetSceneByName(Scene.EventPane).isLoaded == false)
+
+            Debug.Log("showEventPane");
+
+            if (!eventPaneExist)
             {
-                SceneManager.LoadScene(Scene.EventPane, LoadSceneMode.Additive);
+                GameObject instance = (GameObject)Instantiate(Resources.Load("eventPane"), transform.position, transform.rotation);
+                instance.transform.parent = transform;
+
+                this.EventPaneInstance = (EventPane)instance.GetComponent(typeof(EventPane));
+                EventPaneInstance.render(e);
+                Debug.Log("showEventPane...");
+                eventPaneExist = true;
             }
+            else
+            {
+                EventPaneInstance.render(e);
+            }
+
+
+
+
             //怎么获取scene ,然后设置面板？
         }
 
-        public void getRandomEvent()
+        public void getRandomEvent(Transform transform)
         {
 
             //ps:如果以后要筛选list,那么就是把list先筛出来之后，进行后续的步骤
@@ -228,13 +263,24 @@ namespace manager
 
             }
 
-            GameManager.Instance.showEventPane(showEvent);
+            GameManager.Instance.showEventPane(showEvent,transform);
 
         }
 
-        public void checkEvents()
+        public void checkEvents(Transform transform)
         {
+            Debug.Log("checkEvents GameManager");
             //检查是否触发事件
+            if (!transform)
+            {
+                transform  = this.lastEventsPaneTransform;
+            }
+            else {
+                this.lastEventsPaneTransform = transform;
+            }
+
+            Debug.Log("checkEvents GameManager");
+
             List<eventStruct> list = eventTable.Instance.getAllData();
             foreach (eventStruct e in list)
             {
@@ -250,7 +296,7 @@ namespace manager
                         roleTable.Instance.insertByRawRoleId(e.roleIdSending);
 
                         this.currentEventId = e.id;
-                        showEventPane(e);
+                        showEventPane(e, transform);
                         return;
 
 
@@ -261,7 +307,7 @@ namespace manager
                         GameManager.Instance.addCoin(e.coinSending);
 
                         currentEventId = e.id;
-                        showEventPane(e);
+                        showEventPane(e, transform);
                         return;
                     }
 
@@ -272,14 +318,14 @@ namespace manager
                         GameManager.Instance.addItem(e.itemIdSending);
 
                         currentEventId = e.id;
-                        showEventPane(e);
+                        showEventPane(e, transform);
                         return;
                     }
 
                     else if (e.type == eventStructType.MissionTips)
                     {
                         currentEventId = e.id;
-                        showEventPane(e);
+                        showEventPane(e, transform);
 
                         //初始化游戏后，turn和wave要从-1，-1改成0，0
                         if (GameManager.Instance.wave == -1 && GameManager.Instance.turn == -1)
@@ -296,6 +342,13 @@ namespace manager
 
                 }
             }
+
+            //TODO::这里有点危险，必须前面都返回return 才没问题
+            //这里hidden,之后也不一定正常
+            //还是要了解，prefab加载后，如何卸载，如何再安装
+            Debug.Log("Destroy(this.EventPaneInstance);");
+            this.EventPaneInstance.hidden();
+            //this.EventPaneInstance = null;
         }
 
 

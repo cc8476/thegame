@@ -89,8 +89,25 @@ public class rawEnemyTable
     {
         //获取全部数据
         SqlCommand.CommandText = "SELECT * FROM rawEnemy";
-        SqlReader = SqlCommand.ExecuteReader();
+        return this.getData();
+    }
 
+
+    public List<enemyStruct> getEnemiesData(int count,int currentTurn,bool isBoss)
+    {
+        string quality = isBoss ? " quality==99 " : " quality<99 ";
+        string str = "SELECT * FROM rawEnemy " +
+            "WHERE turnMin<= " + currentTurn + " and turnMax >=" + currentTurn + "  and "+ quality + " order by random() limit " + count;
+        //获取全部数据
+        Debug.Log("sql:"+str);
+        SqlCommand.CommandText = str;
+        
+        return this.getData();
+    }
+
+    private List<enemyStruct> getData()
+    {
+        SqlReader = SqlCommand.ExecuteReader();
         List<enemyStruct> list = new List<enemyStruct>();
 
         while (SqlReader.Read())
@@ -122,7 +139,9 @@ public class rawEnemyTable
         }
 
         SqlReader.Close();
+
         return list;
+
     }
 
     static public rawEnemyTable Instance

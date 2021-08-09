@@ -31,6 +31,7 @@ public class enemyTable
 
     public int insert(enemyStruct r)
     {
+        
 
         string sqlQuery = string.Format(
             "insert into enemy (hp, att, critical,def,speed,darkres,lightres,quality," +

@@ -16,14 +16,29 @@ public class fightScene : MonoBehaviour
     private int currentRound = 1;//当前轮次
     private Dictionary<int, fightRoleStruct> roles = new Dictionary<int, fightRoleStruct>();//我方组 int = id
     private Dictionary<int, fightRoleStruct> enemies = new Dictionary<int, fightRoleStruct>();//敌人组
-    private int currentChar = -1;//当前执行角色id
-    private int currentType = -1;//当前执行角色类别 0= roles, 1= enemies
-    private fightRoleStruct currentRole;//当前role
-    private int currentBeAttackChar = -1;//当前被攻击的角色id
+    [Tooltip("当前执行角色id")]
+    private int currentChar = -1;
+    [Tooltip("当前执行角色类别 0= roles, 1= enemies")]
+    private int currentType = -1;
+    [Tooltip("当前role")]
+    private fightRoleStruct currentRole;//
+    [Tooltip("当前被攻击的角色id")]
+    private int currentBeAttackChar = -1;//
+    [Tooltip("是否正在执行动作")]
+
+    private int random = 0;
+    private bool inAciton = false;
+
+    void OnEnable()
+    {
+
+        this.random = Random.Range(0, 10000);
+        Debug.Log("fightscene ....onenable random:" + this.random);
+    }
 
     void Start()
     {
-
+        Debug.Log("fightscene ....start");
         retreatBtn = GameObject.Find("Canvas/retreatBtn");
         retreatBtn.GetComponent<Button>().onClick.AddListener(retreatFunc);
         roundTxt = GameObject.Find("Canvas/roundTxt").GetComponent<Text>();
@@ -82,13 +97,16 @@ public class fightScene : MonoBehaviour
             canvas.transform.position.y - 200,
             canvas.transform.position.z
         );
-        rolePane = (GameObject)Instantiate(Resources.Load("rolePane"), transform.position, transform.rotation);
-        rolePane.transform.parent = canvas.transform;
-        rolePane.transform.position = position;
+        this.rolePane = (GameObject)Instantiate(Resources.Load("rolePane"), transform.position, transform.rotation);
+        this.rolePane.transform.parent = canvas.transform;
+        this.rolePane.transform.position = position;
+
+        Debug.Log("rolePane....");
 
         // 添加事件侦听
         ObjectEventDispatcher.dispatcher.addEventListener(EventTypeName.HOVER_ROLE, showRolePaneHandler);
         ObjectEventDispatcher.dispatcher.addEventListener(EventTypeName.ATTACK_ROLE, attackRolePaneHandler);
+        ObjectEventDispatcher.dispatcher.addEventListener(EventTypeName.ATTACK_AUTO, attackAutoPaneHandler);
     }
 
     //根据roles和enemies，得到当前的轮次
@@ -163,15 +181,56 @@ public class fightScene : MonoBehaviour
     private void showRolePaneHandler(UEvent uEvent)
     {
         int[] data = (int[])uEvent.eventParams;
-
-        rolePane rolepane = (rolePane)rolePane.GetComponent(typeof(rolePane));
+        Debug.Log("1111111 random" + this.random);
+        Debug.Log("1111111" + rolePane);
+        Debug.Log("1111111" + this.rolePane);
+        rolePane rolepane = (rolePane)this.rolePane.GetComponent(typeof(rolePane));
         rolepane.render(data[0], data[1]);
     }
 
-    //当前被击中对象
-    private void attackRolePaneHandler(UEvent uEvent)
+    
+    private void attackAutoPaneHandler(UEvent uEvent)
     {
-        var target = (roleDisplay)uEvent.target;
+        var tempCollections = (currentType == 1) ? roles : enemies;
+        int count = 0;
+        foreach (var item in tempCollections)
+        {
+            if (item.Value.active )
+            {
+                count++;
+            }
+        }
+
+
+        int order = Random.Range(0, count);
+
+        int checkCount = 0;
+        var target = new roleDisplay();
+        foreach (var item in tempCollections)
+        {
+            if (item.Value.active)
+            {
+                if(checkCount==order)
+                {
+                    target = item.Value.ui;
+                    break;
+                }
+
+                checkCount++;
+            }
+        }
+
+
+
+        this.calculateAttack(target);
+
+
+
+
+    }
+
+    private async void  calculateAttack(roleDisplay target)
+    {
         var collections = (currentType == 1) ? roles : enemies;
 
         foreach (var item in collections)
@@ -207,21 +266,27 @@ public class fightScene : MonoBehaviour
 
 
                 //更新状态
-                int curhp = attackTarget.ui.beAttack(att);
-                if(curhp<=0) {
-                    attackTarget.active = false;//设置死亡状态
-                }
-                currentRole.acted = true;
+                //int curhp = await attackTarget.ui.beAttack(att);
+                this.inAciton = true;
+                StartCoroutine(attackTarget.ui.beAttack(att,(curhp) => {
+                    this.inAciton = false;
+                    if (curhp <= 0)
+                    {
+                        attackTarget.active = false;//设置死亡状态
+                    }
+                    currentRole.acted = true;
 
 
 
-                //检查是否胜利  是否下一个角色
-                if (!this.checkGameEnd()) {
-                    this.nextPlayer();
-                }
+                    //检查是否胜利  是否下一个角色
+                    if (!this.checkGameEnd())
+                    {
+                        this.nextPlayer();
+                    }
+                }));
 
 
-              
+
 
 
                 break;
@@ -230,8 +295,19 @@ public class fightScene : MonoBehaviour
 
         }
 
+    }
 
+    //当前被击中对象
+    private void attackRolePaneHandler(UEvent uEvent)
+    {
+        if(this.inAciton)
+        {
+            return;
+        }
 
+        var target = (roleDisplay)uEvent.target;
+
+        this.calculateAttack(target);
 
     }
 
@@ -301,6 +377,29 @@ public class fightScene : MonoBehaviour
             fightEnd pane = (fightEnd)instance.GetComponent(typeof(fightEnd));
             pane.render(win, lose);
 
+            if(GameManager.Instance.wave < Rule.maxWave)
+            {
+                GameManager.Instance.wave += 1;
+            }
+            else
+            {
+                GameManager.Instance.wave = 0;
+
+
+                if (GameManager.Instance.turn < Rule.maxTurn)
+                {
+                    GameManager.Instance.turn += 1;
+                }
+                else
+                {
+                    //TODO::显示游戏胜利的面板
+                }
+
+
+            }
+            
+
+
             return true;
         }
 
@@ -369,5 +468,16 @@ public class fightScene : MonoBehaviour
     void retreatFunc()
     {
         SceneManager.LoadScene(Scene.town);//sceneName
+    }
+
+    private void OnDestroy()
+    {
+        this.enemies.Clear();
+        this.roles.Clear();
+        this.currentChar = -1;
+        this.currentType = -1;
+        this.currentRole = null;
+        this.currentBeAttackChar = -1;
+        this.rolePane = null;
     }
 }

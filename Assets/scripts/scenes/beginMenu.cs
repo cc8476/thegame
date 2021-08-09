@@ -12,7 +12,7 @@ public class beginMenu : MonoBehaviour
 
     void Start()
     {
-
+        Debug.Log("beginMenu  start");
         playBtn = GameObject.Find("Canvas/playBtn");
         playBtn.GetComponent<Button>().onClick.AddListener(playFunc);
 
@@ -46,5 +46,10 @@ public class beginMenu : MonoBehaviour
         GameManager.Instance.init();
         GameManager.Instance.ReadBin();
         SceneManager.LoadScene(Scene.town);//sceneName
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("beginMenu  ondestroy");
     }
 }

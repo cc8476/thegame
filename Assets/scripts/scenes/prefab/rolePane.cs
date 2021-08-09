@@ -20,7 +20,7 @@ public class rolePane : MonoBehaviour
 
 
     public int hp;
-    void Start()
+    void OnEnable()
     {
         roleNameTxt = GameObject.Find("Canvas/roleNameTxt").GetComponent<Text>();
         roleHpTxt = GameObject.Find("Canvas/roleHpTxt").GetComponent<Text>();

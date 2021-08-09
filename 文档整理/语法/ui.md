@@ -58,3 +58,8 @@ anchors —— 锚线/锚框:相对位置固定，可能会变形
 scaler:
 1.constant pixel :ui尺寸恒定，和分辨率无关
 2.sacle with screen size ,和分辨率等比缩放，会提供一个参考分辨率
+
+
+
+canvas 使用world space的 render type是否更好？因为可以设置canvas自身的position
+其余2个都不可设置；

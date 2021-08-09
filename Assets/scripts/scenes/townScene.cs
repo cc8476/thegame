@@ -15,7 +15,9 @@ public class townScene : MonoBehaviour
     void Start()
     {
         Debug.Log("town scene");
-        GameManager.Instance.checkEvents();
+
+        GameObject canvas = GameObject.Find("Canvas");
+        GameManager.Instance.checkEvents(canvas.transform);
         mapBtn = GameObject.Find("Canvas/mapButton").GetComponent<Button>();
         mapBtn.onClick.AddListener(mapSceneFunc);
 

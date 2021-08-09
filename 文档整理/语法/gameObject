@@ -1,3 +1,7 @@
+        gameObject 脚本所在的游戏对象
+        Find("/Canvas/img")  这是场景或者prefab下的绝对地址
+        Find("Canvas/img")  这是gameObject下的子地址
+
 通过[对象名称]（Find方法）
 通过[标签]单个游戏对象（FindWithTag方法）
 通过[标签]获取多个游戏对象（FindGameObjectsWithTags方法）

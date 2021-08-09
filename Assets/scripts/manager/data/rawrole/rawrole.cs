@@ -1,4 +1,6 @@
 
+using UnityEngine;
+
 public class RawRoleStructure
 {
 
@@ -10,6 +12,7 @@ public class RawRoleStructure
     public int speed;//速度
     public int darkres;//暗抗性
     public int lightres;//光抗性
+    [Tooltip("quality  enemy=99,是boss级别")]
     public int quality;//品质
     public string name;//名字
     public string skills;//技能列表

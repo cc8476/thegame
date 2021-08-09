@@ -1,5 +1,10 @@
 ﻿<Properties StartupConfiguration="{5EFAC6E5-EB73-81F6-6576-EC7B7F487346}|">
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/scenes/mapScene.cs">
+    <Files>
+      <File FileName="Assets/scripts/scenes/mapScene.cs" Line="74" Column="92" />
+      <File FileName="Assets/scripts/scenes/townScene.cs" Line="21" Column="77" />
+      <File FileName="Assets/scripts/utils/ImageTool.cs" Line="8" Column="44" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
@@ -8,17 +13,18 @@
               <Node name="scripts" expanded="True">
                 <Node name="manager" expanded="True">
                   <Node name="data" expanded="True">
-                    <Node name="enemy" expanded="True">
-                      <Node name="enemyTable.cs" selected="True" />
-                    </Node>
-                    <Node name="randomEvent" expanded="True" />
+                    <Node name="enemy" expanded="True" />
                     <Node name="rawEnemy" expanded="True" />
+                    <Node name="rawrole" expanded="True" />
                     <Node name="role" expanded="True" />
                   </Node>
                 </Node>
                 <Node name="scenes" expanded="True">
-                  <Node name="panes" expanded="True" />
                   <Node name="prefab" expanded="True" />
+                  <Node name="mapScene.cs" selected="True" />
+                </Node>
+                <Node name="utils" expanded="True">
+                  <Node name="events" expanded="True" />
                 </Node>
               </Node>
             </Node>
@@ -29,7 +35,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="5b7f7ca9-e617-4a64-816b-22f871520f03" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="bfbfeb76-b167-4dc6-8f1e-5d0f0b52ece6" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

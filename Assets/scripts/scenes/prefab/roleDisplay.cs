@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,9 +12,13 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public Text nameTxt;//姓名显示ui
     public Text hpTxt;//血量显示ui
     public Image arrow;
+    public Image body;
 
     public int roleId;
-    public int chartype;//chartype =0  role , =1 enemy
+    [Tooltip("0=role , 1=enemy")]
+    public int chartype;
+
+
 
     public int status;//1= 当前是攻击者 0=什么都不是
 
@@ -25,16 +30,17 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         transform.Find("Canvas/bodyImg").GetComponent<Outline>().enabled = false;
 
 
+        body = transform.Find("Canvas/bodyImg").GetComponent<Image>();
+
     }
 
     public void render(RoleStruct role, int chartype)
     {
-        //chartype =0  role , =1 enemy
         Debug.Log("zzzzzzzz" + JsonUtility.ToJson(role));
 
         transform.Find("Canvas/nameTxt").GetComponent<Text>().text = role.name;
         transform.Find("Canvas/hpTxt").GetComponent<Text>().text = role.curhp.ToString() +"/"+role.hp.ToString();
-        transform.Find("Canvas/bodyImg").GetComponent<Image>().sprite = ImageTool.LoadSpriteByIO(Application.streamingAssetsPath + role.bodypic);
+        body.sprite = ImageTool.LoadSpriteByIO(Application.streamingAssetsPath + role.bodypic);
 
 
 
@@ -50,8 +56,9 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
     //被攻击，找一个更好看的shader
-    public int beAttack(float loseHP)
+    public IEnumerator beAttack(float loseHP, Action<int> taskCompletedCallBack)
     {
+        Debug.Log("beAttack:"+loseHP);
         RoleStruct r = new RoleStruct();
         if (this.chartype==0)
         {
@@ -61,14 +68,24 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         {
             r = enemyTable.Instance.loseHP(loseHP, this.roleId);
         }
-        
 
+        //攻击动画
+        GameObject instance = (GameObject)Instantiate(Resources.Load("attackAct"));
+        instance.transform.parent = body.transform;
+        instance.transform.position = body.transform.position;
+
+        attackAct pane = (attackAct)instance.GetComponent(typeof(attackAct));
+        pane.render("attack", 8);
+        //攻击动画
+
+
+        yield return new WaitForSeconds(1);  //
         Debug.Log("当前损失：" + loseHP);
         Material mat = Resources.Load<Material>("material/blurEffect");
         transform.Find("Canvas/bodyImg").GetComponent<Image>().material = mat;
 
         this.render(r, this.chartype);
-        return r.curhp;
+        taskCompletedCallBack(r.curhp);
 
     }
 
@@ -77,13 +94,16 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         Debug.Log("enter");
         setOutline(true);
 
+        this.showRolePane();
+    }
+
+    private void showRolePane()
+    {
         // 触发事件
         int[] data = { this.roleId, this.chartype };
         ObjectEventDispatcher.dispatcher.dispatchEvent(new UEvent(EventTypeName.HOVER_ROLE, data), this);
-
-
-
     }
+
     public void OnPointerExit(PointerEventData eventData)
     {
         setOutline(false);
@@ -95,7 +115,7 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         Debug.Log("down");
     }
 
-    //鼠标点击完成（按下，抬起）触发 ，如果按下的时候在别的地方抬起，则不会触发
+    //被攻击
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("click");
@@ -114,10 +134,22 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
     }
 
+    //准备阶段
     internal void ready()
     {
         this.status = 1;
         this.renderStatus();
+        this.autoAttack();
+    }
+
+    //敌人，触发自动攻击
+    private void autoAttack()
+    {
+
+        if(this.chartype==1) {
+            ObjectEventDispatcher.dispatcher.dispatchEvent(new UEvent(EventTypeName.ATTACK_AUTO), null);
+        }
+
     }
 
     internal void notReady()
@@ -133,6 +165,8 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             case 1:
                 arrow.color = new Color(255, 255, 255, 255);
                 setOutline(true);
+                this.showRolePane();
+
                 break;
             case 0:
                 arrow.color = new Color(255, 255, 255, 0);

@@ -131,3 +131,32 @@ IEnumerator ReloadGame()
     // ... and then reload the level.
     Application.LoadLevel(Application.loadedLevel);
 }
+
+
+
+给代码增加提示
+[Tooltip("0=role , 1=enemy")]
+public int chartype;
+
+
+复杂的协程+返回值：
+   public RawImage imageBox;
+    void Start()
+    {
+        StartCoroutine(LoadTexture2D("/icon.png", (value) => imageBox.texture = value));
+    }
+
+    public IEnumerator LoadTexture2D(string url, Action<Texture2D> taskCompletedCallBack)
+    {
+        UnityWebRequest request = UnityWebRequestTexture.GetTexture(Application.persistentDataPath + url);
+        yield return request.SendWebRequest();
+
+        if (request.isHttpError || request.isNetworkError)
+        { }
+        else
+        {
+            var texture = DownloadHandlerTexture.GetContent(request);
+            taskCompletedCallBack(texture);
+        }
+
+    }
