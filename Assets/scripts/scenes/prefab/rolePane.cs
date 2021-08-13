@@ -20,7 +20,7 @@ public class rolePane : MonoBehaviour
 
 
     public int hp;
-    void OnEnable()
+    void Awake()
     {
         roleNameTxt = GameObject.Find("Canvas/roleNameTxt").GetComponent<Text>();
         roleHpTxt = GameObject.Find("Canvas/roleHpTxt").GetComponent<Text>();
@@ -105,14 +105,21 @@ public class rolePane : MonoBehaviour
 
     void selectskillHandler(UEvent uEvent)
     {
-        foreach (GameObject item in this.sonobj)
+        try
         {
-            skillDisplay othersk = (skillDisplay)item.GetComponent(typeof(skillDisplay));
-            othersk.unselect();
-        }
+            foreach (GameObject item in this.sonobj)
+            {
+                skillDisplay othersk = (skillDisplay)item.GetComponent(typeof(skillDisplay));
+                othersk.unselect();
+            }
 
-        var sk = (skillDisplay)uEvent.target;
-        sk.select();
+            var sk = (skillDisplay)uEvent.target;
+            sk.select();
+        }
+        catch (System.Exception ex)
+        {
+
+        }
 
     }
 

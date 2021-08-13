@@ -36,6 +36,8 @@ public class EventPane : MonoBehaviour
         pic = GameObject.Find("eventCanvas/pic").GetComponent<Image>();
         pic.sprite = null;
 
+        GameObject.DontDestroyOnLoad(this.gameObject);
+
     }
 
     public void render(eventStruct currentEvent) {

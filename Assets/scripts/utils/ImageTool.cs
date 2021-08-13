@@ -7,6 +7,7 @@ public class ImageTool
 
         public static Sprite LoadSpriteByIO(string _url)
         {
+            Debug.Log("LoadSpriteByIO:" + _url);
             Texture2D _texture2D = LoadTexture2DByIO(_url);
             Sprite _sprite = Sprite.Create(_texture2D, new Rect(0, 0, _texture2D.width, _texture2D.height), new Vector2(0.5f, 0.5f));
             return _sprite;
@@ -14,6 +15,7 @@ public class ImageTool
 
         public static Texture2D LoadTexture2DByIO(string _url)
         {
+            Debug.Log("LoadTexture2DByIO:" + _url);
             //创建文件读取流
             FileStream _fileStream = new FileStream(_url, FileMode.Open, FileAccess.Read);
             _fileStream.Seek(0, SeekOrigin.Begin);

@@ -1,10 +1,8 @@
 
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace manager
 {
@@ -24,7 +22,6 @@ namespace manager
         public int currentEventId;//当前的事件奖励Id (奖励过的不再查询)
 
         private Transform lastEventsPaneTransform;//上次奖励场景
-        private bool eventPaneExist =false;
         private EventPane EventPaneInstance;
 
         public void init()
@@ -176,19 +173,18 @@ namespace manager
 
             Debug.Log("showEventPane");
 
-            if (!eventPaneExist)
+            if (!this.EventPaneInstance)
             {
                 GameObject instance = (GameObject)Instantiate(Resources.Load("eventPane"), transform.position, transform.rotation);
                 instance.transform.parent = transform;
 
                 this.EventPaneInstance = (EventPane)instance.GetComponent(typeof(EventPane));
                 EventPaneInstance.render(e);
-                Debug.Log("showEventPane...");
-                eventPaneExist = true;
+                Debug.Log("showEventPane........");
             }
             else
             {
-                EventPaneInstance.render(e);
+                this.EventPaneInstance.render(e);
             }
 
 

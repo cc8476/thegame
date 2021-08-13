@@ -11,12 +11,13 @@ public class townScene : MonoBehaviour
     private Text turnTxt;//轮次显示ui
     private Text waveTxt;//波次显示ui
 
+    public Canvas canvas;
+
 
     void Start()
     {
         Debug.Log("town scene");
 
-        GameObject canvas = GameObject.Find("Canvas");
         GameManager.Instance.checkEvents(canvas.transform);
         mapBtn = GameObject.Find("Canvas/mapButton").GetComponent<Button>();
         mapBtn.onClick.AddListener(mapSceneFunc);

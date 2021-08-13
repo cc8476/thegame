@@ -39,7 +39,7 @@ public class beginMenu : MonoBehaviour
     }
     void quitFunc()
     {
-
+        Application.Quit();
     }
     void continueFunc()
     {

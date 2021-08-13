@@ -13,6 +13,7 @@ public class mapScene : MonoBehaviour
     private Button bossBtn;//boss按钮
     private Button enemyBtn;//敌人按钮
 
+
     private Image bg;
 
 
@@ -54,14 +55,14 @@ public class mapScene : MonoBehaviour
         //进入战斗
         SceneManager.LoadScene(Scene.fightScene);
     }
-    
 
     //生成随机事件
     void getEvent()
     {
 
-        GameManager.Instance.getRandomEvent(this.transform);
+        GameManager.Instance.getRandomEvent(GameObject.Find("Canvas").transform);
         GameManager.Instance.wave += 1;
+        this.render();
     }
 
 

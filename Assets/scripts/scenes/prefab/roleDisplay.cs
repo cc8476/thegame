@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -100,6 +99,7 @@ public class roleDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private void showRolePane()
     {
         // 触发事件
+        Debug.Log("showRolePane dispatch");
         int[] data = { this.roleId, this.chartype };
         ObjectEventDispatcher.dispatcher.dispatchEvent(new UEvent(EventTypeName.HOVER_ROLE, data), this);
     }

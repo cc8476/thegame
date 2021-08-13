@@ -1,11 +1,14 @@
 ﻿<Properties StartupConfiguration="{5EFAC6E5-EB73-81F6-6576-EC7B7F487346}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/scenes/Main.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/scenes/fightScene.cs">
     <Files>
-      <File FileName="Assets/scripts/scenes/Main.cs" Line="28" Column="38" />
-      <File FileName="Assets/scripts/manager/GameManager.cs" Line="271" Column="10" />
-      <File FileName="Assets/scripts/scenes/prefab/EventPane.cs" />
-      <File FileName="Assets/scripts/manager/data/rawrole/rawroleTable.cs" />
-      <File FileName="Assets/scripts/manager/data/event/event.cs" />
+      <File FileName="Assets/scripts/scenes/beginMenu.cs" Line="56" Column="1" />
+      <File FileName="Assets/scripts/scenes/fightScene.cs" Line="405" Column="18" />
+      <File FileName="Assets/scripts/scenes/prefab/EventPane.cs" Line="21" Column="20" />
+      <File FileName="Assets/scripts/scenes/prefab/EventPane (复制).cs" Line="21" Column="18" />
+      <File FileName="Assets/scripts/scenes/prefab/rolePane.cs" Line="121" Column="1" />
+      <File FileName="Assets/scripts/manager/data/item/itemTable.cs" Line="37" Column="72" />
+      <File FileName="Assets/scripts/manager/Rule.cs" Line="3" Column="46" />
+      <File FileName="Assets/scripts/manager/GameManager.cs" Line="177" Column="14" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -17,19 +20,24 @@
                   <Node name="data" expanded="True">
                     <Node name="enemy" expanded="True" />
                     <Node name="event" expanded="True" />
+                    <Node name="item" expanded="True" />
                     <Node name="randomEvent" expanded="True" />
                     <Node name="rawEnemy" expanded="True" />
                     <Node name="rawrole" expanded="True" />
                     <Node name="role" expanded="True" />
+                    <Node name="skill" expanded="True" />
                   </Node>
                 </Node>
                 <Node name="scenes" expanded="True">
                   <Node name="prefab" expanded="True" />
-                  <Node name="Main.cs" selected="True" />
+                  <Node name="fightScene.cs" selected="True" />
                 </Node>
                 <Node name="utils" expanded="True">
                   <Node name="events" expanded="True" />
                 </Node>
+              </Node>
+              <Node name="StreamingAssets" expanded="True">
+                <Node name="action" expanded="True" />
               </Node>
             </Node>
           </Node>
@@ -39,7 +47,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="0081afb1-9f9b-4102-8466-88d7c7cd1f2a" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="521d585b-2a31-4d7a-a6c3-49cd2255390f" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

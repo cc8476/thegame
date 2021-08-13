@@ -1,5 +1,4 @@
 
-using System.Collections;
 using System.Collections.Generic;
 using manager;
 using UnityEngine;
@@ -12,7 +11,7 @@ public class fightScene : MonoBehaviour
     private GameObject retreatBtn;//撤退按钮
     private Text roundTxt;//
     private GameObject canvas;//画布
-    private GameObject rolePane;// 人物面板
+    public GameObject rolePaneInstance;// 人物面板
     private int currentRound = 1;//当前轮次
     private Dictionary<int, fightRoleStruct> roles = new Dictionary<int, fightRoleStruct>();//我方组 int = id
     private Dictionary<int, fightRoleStruct> enemies = new Dictionary<int, fightRoleStruct>();//敌人组
@@ -29,30 +28,40 @@ public class fightScene : MonoBehaviour
     private int random = 0;
     private bool inAciton = false;
 
-    void OnEnable()
+    void Start()
     {
 
         this.random = Random.Range(0, 10000);
         Debug.Log("fightscene ....onenable random:" + this.random);
-    }
 
-    void Start()
-    {
+
         Debug.Log("fightscene ....start");
-        retreatBtn = GameObject.Find("Canvas/retreatBtn");
+        retreatBtn = GameObject.Find("fightCanvas/retreatBtn");
         retreatBtn.GetComponent<Button>().onClick.AddListener(retreatFunc);
-        roundTxt = GameObject.Find("Canvas/roundTxt").GetComponent<Text>();
-        canvas = GameObject.Find("Canvas");
+        roundTxt = GameObject.Find("fightCanvas/roundTxt").GetComponent<Text>();
+        canvas = GameObject.Find("fightCanvas");
 
 
         this.initRolesEnemies();//初始化双方角色
         this.setCurrentChar();//设定当前轮次的ready阶段数据
         this.renderUI();//渲染当前ui
-
     }
+
 
     private void initRolesEnemies()
     {
+
+        //展示唯一的人物面板
+        Vector3 position = new Vector3(
+            canvas.transform.position.x + 220,
+            canvas.transform.position.y - 200,
+            canvas.transform.position.z
+        );
+        this.rolePaneInstance = (GameObject)Instantiate(Resources.Load("rolePane"), transform.position, transform.rotation);
+        this.rolePaneInstance.transform.parent = canvas.transform;
+        this.rolePaneInstance.transform.position = position;
+
+        Debug.Log("rolePane....");
 
         //展示role的人物形象
         List<RoleStruct> roleList = roleTable.Instance.getAllData();
@@ -91,17 +100,7 @@ public class fightScene : MonoBehaviour
         }
 
 
-        //展示唯一的人物面板
-        Vector3 position = new Vector3(
-            canvas.transform.position.x + 220,
-            canvas.transform.position.y - 200,
-            canvas.transform.position.z
-        );
-        this.rolePane = (GameObject)Instantiate(Resources.Load("rolePane"), transform.position, transform.rotation);
-        this.rolePane.transform.parent = canvas.transform;
-        this.rolePane.transform.position = position;
 
-        Debug.Log("rolePane....");
 
         // 添加事件侦听
         ObjectEventDispatcher.dispatcher.addEventListener(EventTypeName.HOVER_ROLE, showRolePaneHandler);
@@ -180,12 +179,19 @@ public class fightScene : MonoBehaviour
 
     private void showRolePaneHandler(UEvent uEvent)
     {
-        int[] data = (int[])uEvent.eventParams;
-        Debug.Log("1111111 random" + this.random);
-        Debug.Log("1111111" + rolePane);
-        Debug.Log("1111111" + this.rolePane);
-        rolePane rolepane = (rolePane)this.rolePane.GetComponent(typeof(rolePane));
-        rolepane.render(data[0], data[1]);
+
+        try
+        {
+            //TODO::不知道这里为什么一直报错
+            int[] data = (int[])uEvent.eventParams;
+            rolePane rolepane = (rolePane)this.rolePaneInstance.GetComponent(typeof(rolePane));
+            rolepane.render(data[0], data[1]);
+        }
+        catch (System.Exception ex)
+        {
+
+        }
+
     }
 
     
@@ -392,7 +398,10 @@ public class fightScene : MonoBehaviour
                 }
                 else
                 {
-                    //TODO::显示游戏胜利的面板
+                    //显示游戏胜利的面板
+                    //TODO::为什么这里就不显示呢？去掉Enable后，再勾选上，就不显示了
+                    var winPane = (GameObject)Instantiate(Resources.Load("winPane"), transform.position, transform.rotation);
+                    winPane.transform.parent = canvas.transform;
                 }
 
 
@@ -472,12 +481,13 @@ public class fightScene : MonoBehaviour
 
     private void OnDestroy()
     {
+        Debug.Log("OnDestroy fightScene");
         this.enemies.Clear();
         this.roles.Clear();
         this.currentChar = -1;
         this.currentType = -1;
         this.currentRole = null;
         this.currentBeAttackChar = -1;
-        this.rolePane = null;
+        this.rolePaneInstance = null;
     }
 }

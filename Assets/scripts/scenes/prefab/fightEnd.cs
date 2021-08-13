@@ -35,7 +35,7 @@ public class fightEnd : MonoBehaviour
         if (this.winBool)
         {
             //成功的处理
-            SceneManager.LoadScene(Scene.mapScene);//sceneName
+            SceneManager.LoadScene(Scene.town);//sceneName
             //TODO::处理数据
         }
         else
